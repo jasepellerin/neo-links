@@ -46,6 +46,7 @@ export const Section = ({
 						className={`flex gap-2 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
 						bg-gray-50 border-gray-200
 						dark:bg-neutral-800 dark:border-neutral-700
+						flex flex-wrap justify-around
 						${snapshot.isDraggingOver ? 'bg-blue-50 border-blue-400 dark:bg-blue-900 dark:border-blue-500' : ''}`}
 					>
 						{section.links.length === 0 ? (
