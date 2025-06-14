@@ -13,7 +13,8 @@
 		"lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix",
 		"format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
 		"predeploy": "yarn build",
-		"deploy": "gh-pages -d dist"
+		"deploy": "gh-pages -d dist",
+		"styles": "tailwindcss -i ./src/styles.css -o ./public/styles.css --watch"
 	},
 	"devDependencies": {
 		"@types/d3-scale-chromatic": "^3.1.0",
@@ -25,6 +26,7 @@
 		"@types/webpack-dev-server": "4.7.2",
 		"@typescript-eslint/eslint-plugin": "8.33.0",
 		"@typescript-eslint/parser": "8.33.0",
+		"autoprefixer": "^10.4.21",
 		"css-loader": "^7.1.2",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.31.0",
@@ -35,8 +37,10 @@
 		"gh-pages": "^6.3.0",
 		"html-webpack-plugin": "5.6.3",
 		"nodemon": "^3.1.10",
+		"postcss": "^8.5.5",
 		"prettier": "3.5.3",
 		"style-loader": "^4.0.0",
+		"tailwindcss": "^4.1.10",
 		"ts-loader": "9.5.2",
 		"ts-node": "10.9.2",
 		"tsconfig-paths-webpack-plugin": "4.2.0",
@@ -47,6 +51,7 @@
 	},
 	"dependencies": {
 		"@hello-pangea/dnd": "^18.0.1",
+		"@tailwindcss/cli": "^4.1.10",
 		"@turf/turf": "^7.2.0",
 		"d3-contour": "^4.0.2",
 		"d3-scale": "^4.0.2",

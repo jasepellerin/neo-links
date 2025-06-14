@@ -62,13 +62,19 @@ export const LinkGrid = () => {
 	}
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px' }}>
-			<h1>Neo Links</h1>
-			<div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
-				<button onClick={() => setShowSectionModal(true)} style={{ padding: '4px 10px' }}>
+		<div className="flex flex-col gap-2.5 p-2">
+			<h1 className="text-4xl font-bold mb-2">Neo Links</h1>
+			<div className="flex gap-2 items-center mb-2">
+				<button
+					onClick={() => setShowSectionModal(true)}
+					className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+				>
 					Add Section
 				</button>
-				<button onClick={() => setShowLinkModal(true)} style={{ padding: '4px 10px' }}>
+				<button
+					onClick={() => setShowLinkModal(true)}
+					className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 transition"
+				>
 					Add Link
 				</button>
 			</div>
@@ -78,13 +84,19 @@ export const LinkGrid = () => {
 					placeholder="New section title"
 					value={newSectionTitle}
 					onChange={(e) => setNewSectionTitle(e.target.value)}
-					style={{ padding: '4px', fontSize: '1rem' }}
+					className="border rounded px-2 py-1 text-base"
 				/>
-				<div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-					<button onClick={() => setShowSectionModal(false)} style={{ padding: '4px 10px' }}>
+				<div className="flex gap-2 justify-end">
+					<button
+						onClick={() => setShowSectionModal(false)}
+						className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+					>
 						Cancel
 					</button>
-					<button onClick={handleAddSection} style={{ padding: '4px 10px' }}>
+					<button
+						onClick={handleAddSection}
+						className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+					>
 						Add
 					</button>
 				</div>
@@ -94,24 +106,24 @@ export const LinkGrid = () => {
 					placeholder="Href"
 					value={newLink.href}
 					onChange={(e) => setNewLink({ ...newLink, href: e.target.value })}
-					style={{ padding: '4px', fontSize: '1rem' }}
+					className="border rounded px-2 py-1 text-base"
 				/>
 				<input
 					placeholder="Title"
 					value={newLink.title}
 					onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
-					style={{ padding: '4px', fontSize: '1rem' }}
+					className="border rounded px-2 py-1 text-base"
 				/>
 				<input
 					placeholder="Image src"
 					value={newLink.src}
 					onChange={(e) => setNewLink({ ...newLink, src: e.target.value })}
-					style={{ padding: '4px', fontSize: '1rem' }}
+					className="border rounded px-2 py-1 text-base"
 				/>
 				<select
 					value={newLink.section}
 					onChange={(e) => setNewLink({ ...newLink, section: e.target.value })}
-					style={{ padding: '4px', fontSize: '1rem' }}
+					className="border rounded px-2 py-1 text-base"
 				>
 					<option value="">Section</option>
 					{linkSections.map((section) => (
@@ -120,11 +132,17 @@ export const LinkGrid = () => {
 						</option>
 					))}
 				</select>
-				<div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-					<button onClick={() => setShowLinkModal(false)} style={{ padding: '4px 10px' }}>
+				<div className="flex gap-2 justify-end">
+					<button
+						onClick={() => setShowLinkModal(false)}
+						className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+					>
 						Cancel
 					</button>
-					<button onClick={handleAddLink} style={{ padding: '4px 10px' }}>
+					<button
+						onClick={handleAddLink}
+						className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700"
+					>
 						Add
 					</button>
 				</div>

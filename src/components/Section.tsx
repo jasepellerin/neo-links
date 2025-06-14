@@ -2,22 +2,13 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 export const Section = ({ section, getLinkId, Link }) => (
 	<div>
-		<h2>{section.title}</h2>
+		<h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
 		<Droppable droppableId={section.title} direction="horizontal">
 			{(provided, snapshot) => (
 				<div
 					ref={provided.innerRef}
 					{...provided.droppableProps}
-					style={{
-						display: 'flex',
-						gap: '10px',
-						padding: '10px',
-						background: snapshot.isDraggingOver ? '#f0f4ff' : '#fafbfc',
-						border: snapshot.isDraggingOver ? '2px solid #4f8cff' : '1px solid #e0e0e0',
-						borderRadius: '8px',
-						marginBottom: '18px',
-						minHeight: '80px'
-					}}
+					className={`flex gap-2 p-3 rounded-lg mb-4 min-h-[80px] transition border ${snapshot.isDraggingOver ? 'bg-blue-50 border-blue-400' : 'bg-gray-50 border-gray-200'}`}
 				>
 					{section.links.map((link, idx) => (
 						<Draggable key={getLinkId(link)} draggableId={getLinkId(link)} index={idx}>
@@ -26,16 +17,8 @@ export const Section = ({ section, getLinkId, Link }) => (
 									ref={dragProvided.innerRef}
 									{...dragProvided.draggableProps}
 									{...dragProvided.dragHandleProps}
-									style={{
-										userSelect: 'none',
-										background: dragSnapshot.isDragging ? '#e3f0ff' : '#fff',
-										border: dragSnapshot.isDragging ? '2px solid #4f8cff' : '1px solid #e0e0e0',
-										borderRadius: '6px',
-										boxShadow: dragSnapshot.isDragging ? '0 2px 8px rgba(79,140,255,0.15)' : 'none',
-										minWidth: 120,
-										margin: '0 2px',
-										...dragProvided.draggableProps.style
-									}}
+									className={`select-none rounded-md min-w-[120px] m-[2px] transition shadow ${dragSnapshot.isDragging ? 'bg-blue-100 border-2 border-blue-400 shadow-lg' : 'bg-white border border-gray-200'}`}
+									style={dragProvided.draggableProps.style}
 								>
 									<Link {...link} />
 								</div>
