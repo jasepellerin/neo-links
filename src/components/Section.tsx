@@ -62,21 +62,17 @@ export const Section = ({
 											ref={dragProvided.innerRef}
 											{...dragProvided.draggableProps}
 											{...dragProvided.dragHandleProps}
-											className={`select-none rounded-md min-w-[120px] m-[2px] transition shadow relative animate-fadein
-											${
-												dragSnapshot.isDragging
-													? 'bg-blue-100 border-2 border-blue-400 shadow-lg dark:bg-blue-950 dark:border-blue-500 dark:text-neutral-100 text-neutral-900'
-													: 'bg-white border border-gray-200 text-neutral-900 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-100'
-											}`}
+											className={`select-none min-w-[60px] transition relative animate-fadein p-2 rounded-lg
+											${dragSnapshot.isDragging ? 'bg-blue-100 shadow-lg dark:bg-blue-600 text-neutral-900' : ''}`}
 											style={dragProvided.draggableProps.style}
 										>
 											{deleteMode && (
 												<button
 													onClick={() => setConfirmDeleteLinkIdx(idx)}
-													className="absolute top-1 right-1 p-1 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 z-10 cursor-pointer"
+													className="absolute top-0 right-0 p-2 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 z-10 cursor-pointer"
 													title="Delete Link"
 												>
-													<TrashIcon className="w-4 h-4" />
+													<TrashIcon className="w-5 h-5" />
 												</button>
 											)}
 											<Link
@@ -110,7 +106,7 @@ export const Section = ({
 							setConfirmDeleteSection(false)
 							onDeleteSection()
 						}}
-						className="px-3 py-1 rounded bg-red-600 text-white cursor-pointer"
+						className="px-3 py-1 rounded bg-red-600 text-white"
 					>
 						Delete
 					</button>

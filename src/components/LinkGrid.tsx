@@ -125,17 +125,17 @@ export const LinkGrid = () => {
 					<div className="flex items-center gap-2">
 						<button
 							onClick={handleExport}
-							className="p-2 rounded-full bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-400 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
+							className="p-2 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-400 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
 							title="Export Links"
 						>
-							<ArrowUpTrayIcon className="w-5 h-5" />
+							Export
 						</button>
 						<button
 							onClick={handleImportClick}
-							className="p-2 rounded-full bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-400 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
+							className="p-2 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-400 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
 							title="Import Links"
 						>
-							<ArrowDownTrayIcon className="w-5 h-5" />
+							Import
 						</button>
 						<input
 							type="file"
