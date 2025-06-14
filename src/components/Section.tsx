@@ -1,8 +1,17 @@
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
-export const Section = ({ section, getLinkId, Link }) => (
+export const Section = ({ section, getLinkId, Link, onAddLink }) => (
 	<div>
-		<h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
+		<div className="flex items-center justify-between mb-2">
+			<h2 className="text-2xl font-semibold">{section.title}</h2>
+			<button
+				onClick={onAddLink}
+				className="ml-2 p-1.5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 flex items-center justify-center"
+				title="Add Link"
+			>
+				<span className="text-xl leading-none">＋</span>
+			</button>
+		</div>
 		<Droppable droppableId={section.title} direction="horizontal">
 			{(provided, snapshot) => (
 				<div

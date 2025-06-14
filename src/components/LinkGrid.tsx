@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link } from './Link'
 import { Section } from './Section'
-import { Modal } from './Modal'
 import { initialLinkSections, getLinkId } from '../data/links'
+import { AddSectionModal } from './AddSectionModal'
+import { AddLinkModal } from './AddLinkModal'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(initialLinkSections)
@@ -21,7 +22,7 @@ export const LinkGrid = () => {
 
 	const handleAddLink = () => {
 		const { href, title, src, section } = newLink
-		if (!href || !title || !src || !section) return
+		if (!href || !title || !section) return
 		setLinkSections(
 			linkSections.map((s) =>
 				s.title === section ? { ...s, links: [...s.links, { href, title, src }] } : s
@@ -63,93 +64,42 @@ export const LinkGrid = () => {
 
 	return (
 		<div className="flex flex-col gap-2.5 p-4 min-h-screen bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
-			<h1 className="text-4xl font-bold mb-3">Neo Links</h1>
-			<div className="flex gap-3 items-center mb-4">
+			<div className="flex items-center justify-between mb-4">
+				<h1 className="text-4xl font-bold">Neo Links</h1>
 				<button
 					onClick={() => setShowSectionModal(true)}
-					className="px-4 py-1.5 rounded-md font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+					className="ml-4 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center"
+					title="Add Section"
 				>
-					Add Section
-				</button>
-				<button
-					onClick={() => setShowLinkModal(true)}
-					className="px-4 py-1.5 rounded-md font-medium bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-				>
-					Add Link
+					<span className="text-2xl leading-none">＋</span>
 				</button>
 			</div>
-			<Modal open={showSectionModal} onClose={() => setShowSectionModal(false)} title="Add Section">
-				<input
-					type="text"
-					placeholder="New section title"
-					value={newSectionTitle}
-					onChange={(e) => setNewSectionTitle(e.target.value)}
-					className="border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-400"
-				/>
-				<div className="flex gap-2 justify-end mt-2">
-					<button
-						onClick={() => setShowSectionModal(false)}
-						className="px-4 py-1.5 rounded-md font-medium bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-400"
-					>
-						Cancel
-					</button>
-					<button
-						onClick={handleAddSection}
-						className="px-4 py-1.5 rounded-md font-medium bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-					>
-						Add
-					</button>
-				</div>
-			</Modal>
-			<Modal open={showLinkModal} onClose={() => setShowLinkModal(false)} title="Add Link">
-				<input
-					placeholder="Href"
-					value={newLink.href}
-					onChange={(e) => setNewLink({ ...newLink, href: e.target.value })}
-					className="border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400"
-				/>
-				<input
-					placeholder="Title"
-					value={newLink.title}
-					onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
-					className="border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400"
-				/>
-				<input
-					placeholder="Image src"
-					value={newLink.src}
-					onChange={(e) => setNewLink({ ...newLink, src: e.target.value })}
-					className="border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400"
-				/>
-				<select
-					value={newLink.section}
-					onChange={(e) => setNewLink({ ...newLink, section: e.target.value })}
-					className="border border-neutral-300 dark:border-neutral-700 rounded px-2 py-1 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400"
-				>
-					<option value="">Section</option>
-					{linkSections.map((section) => (
-						<option key={section.title} value={section.title}>
-							{section.title}
-						</option>
-					))}
-				</select>
-				<div className="flex gap-2 justify-end mt-2">
-					<button
-						onClick={() => setShowLinkModal(false)}
-						className="px-4 py-1.5 rounded-md font-medium bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-400"
-					>
-						Cancel
-					</button>
-					<button
-						onClick={handleAddLink}
-						className="px-4 py-1.5 rounded-md font-medium bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-					>
-						Add
-					</button>
-				</div>
-			</Modal>
+			<AddSectionModal
+				open={showSectionModal}
+				onClose={() => setShowSectionModal(false)}
+				newSectionTitle={newSectionTitle}
+				setNewSectionTitle={setNewSectionTitle}
+				onAddSection={handleAddSection}
+			/>
+			<AddLinkModal
+				open={showLinkModal}
+				onClose={() => setShowLinkModal(false)}
+				newLink={newLink}
+				setNewLink={setNewLink}
+				onAddLink={handleAddLink}
+			/>
 			<Section.DragDropContext onDragEnd={onDragEnd}>
 				{linkSections.map((section) => (
-					<Section key={section.title} section={section} getLinkId={getLinkId} Link={Link} />
+					<Section
+						key={section.title}
+						section={section}
+						getLinkId={getLinkId}
+						Link={Link}
+						onAddLink={() => {
+							setNewLink({ href: '', title: '', src: '', section: section.title })
+							setShowLinkModal(true)
+						}}
+					/>
 				))}
 			</Section.DragDropContext>
 		</div>

@@ -50,6 +50,7 @@
 		"webpack-dev-server": "5.2.1"
 	},
 	"dependencies": {
+		"@headlessui/react": "^2.2.4",
 		"@hello-pangea/dnd": "^18.0.1",
 		"@tailwindcss/cli": "^4.1.10",
 		"@turf/turf": "^7.2.0",
