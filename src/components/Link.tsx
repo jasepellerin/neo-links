@@ -2,6 +2,8 @@ export const Link = ({ href, title, src }: { href: string; title: string; src: s
 	return (
 		<a
 			href={href}
+			target="_blank"
+			rel="noopener noreferrer"
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -9,7 +11,6 @@ export const Link = ({ href, title, src }: { href: string; title: string; src: s
 				justifyContent: 'center',
 				gap: '10px',
 				textDecoration: 'none'
-				// Add hover decoration
 			}}
 		>
 			<div
