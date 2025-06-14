@@ -47,7 +47,7 @@ const webpackConfig = (env): webpack.Configuration => ({
 		new ForkTsCheckerWebpackPlugin(),
 		new ESLintPlugin({ files: './src/**/*.{ts,tsx,js,jsx}', emitWarning: false }),
 		new CopyWebpackPlugin({
-			patterns: [{ from: 'src/styles.css', to: 'styles.css' }]
+			patterns: [{ from: 'public/styles.css', to: 'styles.css' }]
 		})
 	]
 })
