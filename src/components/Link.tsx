@@ -4,30 +4,14 @@ export const Link = ({ href, title, src }: { href: string; title: string; src: s
 			href={href}
 			target="_blank"
 			rel="noopener noreferrer"
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-				gap: '10px',
-				textDecoration: 'none'
-			}}
+			className="flex flex-col items-center justify-center gap-2 no-underline group p-4  shadow-md"
 		>
-			<div
-				style={{
-					backgroundColor: 'white',
-					padding: '10px',
-					borderRadius: '10px',
-					width: '50px',
-					height: '50px',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center'
-				}}
-			>
-				<img src={src} alt={title} style={{ width: '100%' }} />
+			<div className="bg-white/90 dark:bg-neutral-800/80 p-3 rounded-2xl w-[64px] h-[64px] flex items-center justify-center shadow-md group-hover:shadow-xl group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105">
+				<img src={src} alt={title} />
 			</div>
-			<p>{title}</p>
+			<p className="text-lg font-semibold text-neutral-800 dark:text-neutral-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition text-center select-none max-w-25 truncate text-ellipsis">
+				{title}
+			</p>
 		</a>
 	)
 }
