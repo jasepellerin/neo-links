@@ -1,16 +1,36 @@
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
+import { TrashIcon } from '@heroicons/react/24/solid'
 
-export const Section = ({ section, getLinkId, Link, onAddLink }) => (
+export const Section = ({
+	section,
+	getLinkId,
+	Link,
+	onAddLink,
+	deleteMode,
+	onDeleteSection,
+	onDeleteLink
+}) => (
 	<div>
 		<div className="flex items-center justify-between mb-2">
 			<h2 className="text-2xl font-semibold">{section.title}</h2>
-			<button
-				onClick={onAddLink}
-				className="ml-2 p-1.5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 flex items-center justify-center"
-				title="Add Link"
-			>
-				<span className="text-xl leading-none">＋</span>
-			</button>
+			<div className="flex items-center gap-2">
+				<button
+					onClick={onAddLink}
+					className="ml-2 p-1.5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 flex items-center justify-center cursor-pointer"
+					title="Add Link"
+				>
+					<span className="text-xl leading-none">＋</span>
+				</button>
+				{deleteMode && (
+					<button
+						onClick={onDeleteSection}
+						className="ml-2 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
+						title="Delete Section"
+					>
+						<TrashIcon className="w-5 h-5" />
+					</button>
+				)}
+			</div>
 		</div>
 		<Droppable droppableId={section.title} direction="horizontal">
 			{(provided, snapshot) => (
@@ -29,7 +49,7 @@ export const Section = ({ section, getLinkId, Link, onAddLink }) => (
 									ref={dragProvided.innerRef}
 									{...dragProvided.draggableProps}
 									{...dragProvided.dragHandleProps}
-									className={`select-none rounded-md min-w-[120px] m-[2px] transition shadow
+									className={`select-none rounded-md min-w-[120px] m-[2px] transition shadow relative
 									${
 										dragSnapshot.isDragging
 											? 'bg-blue-100 border-2 border-blue-400 shadow-lg dark:bg-blue-950 dark:border-blue-500 dark:text-neutral-100 text-neutral-900'
@@ -38,6 +58,15 @@ export const Section = ({ section, getLinkId, Link, onAddLink }) => (
 									`}
 									style={dragProvided.draggableProps.style}
 								>
+									{deleteMode && (
+										<button
+											onClick={() => onDeleteLink(idx)}
+											className="absolute top-1 right-1 p-1 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 z-10 cursor-pointer"
+											title="Delete Link"
+										>
+											<TrashIcon className="w-4 h-4" />
+										</button>
+									)}
 									<Link {...link} />
 								</div>
 							)}

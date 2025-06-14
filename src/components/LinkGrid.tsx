@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from './Link'
 import { Section } from './Section'
 import { initialLinkSections, getLinkId } from '../data/links'
 import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
+import { TrashIcon } from '@heroicons/react/24/solid'
 
 export const LinkGrid = () => {
-	const [linkSections, setLinkSections] = useState(initialLinkSections)
+	const [linkSections, setLinkSections] = useState(() => {
+		const stored = typeof window !== 'undefined' ? localStorage.getItem('neo-links-sections') : null
+		return stored ? JSON.parse(stored) : initialLinkSections
+	})
 	const [newSectionTitle, setNewSectionTitle] = useState('')
 	const [newLink, setNewLink] = useState({ href: '', title: '', src: '', section: '' })
 	const [showSectionModal, setShowSectionModal] = useState(false)
 	const [showLinkModal, setShowLinkModal] = useState(false)
+	const [deleteMode, setDeleteMode] = useState(false)
 
 	const handleAddSection = () => {
 		if (!newSectionTitle.trim()) return
@@ -30,6 +35,18 @@ export const LinkGrid = () => {
 		)
 		setNewLink({ href: '', title: '', src: '', section: '' })
 		setShowLinkModal(false)
+	}
+
+	const handleDeleteSection = (title) => {
+		setLinkSections(linkSections.filter((s) => s.title !== title))
+	}
+
+	const handleDeleteLink = (sectionTitle, linkIdx) => {
+		setLinkSections(
+			linkSections.map((s) =>
+				s.title === sectionTitle ? { ...s, links: s.links.filter((_, i) => i !== linkIdx) } : s
+			)
+		)
 	}
 
 	const onDragEnd = (result) => {
@@ -62,17 +79,30 @@ export const LinkGrid = () => {
 		}
 	}
 
+	useEffect(() => {
+		localStorage.setItem('neo-links-sections', JSON.stringify(linkSections))
+	}, [linkSections])
+
 	return (
 		<div className="flex flex-col gap-2.5 p-4 min-h-screen bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
 			<div className="flex items-center justify-between mb-4">
 				<h1 className="text-4xl font-bold">Neo Links</h1>
-				<button
-					onClick={() => setShowSectionModal(true)}
-					className="ml-4 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center"
-					title="Add Section"
-				>
-					<span className="text-2xl leading-none">＋</span>
-				</button>
+				<div className="flex items-center gap-2">
+					<button
+						onClick={() => setShowSectionModal(true)}
+						className="ml-4 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer"
+						title="Add Section"
+					>
+						<span className="text-2xl leading-none">＋</span>
+					</button>
+					<button
+						onClick={() => setDeleteMode((m) => !m)}
+						className={`ml-2 p-2 rounded-full ${deleteMode ? 'bg-red-600' : 'bg-neutral-300 dark:bg-neutral-700'} text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer`}
+						title="Delete Mode"
+					>
+						<TrashIcon className="w-5 h-5" />
+					</button>
+				</div>
 			</div>
 			<AddSectionModal
 				open={showSectionModal}
@@ -99,6 +129,9 @@ export const LinkGrid = () => {
 							setNewLink({ href: '', title: '', src: '', section: section.title })
 							setShowLinkModal(true)
 						}}
+						deleteMode={deleteMode}
+						onDeleteSection={() => handleDeleteSection(section.title)}
+						onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
 					/>
 				))}
 			</Section.DragDropContext>
