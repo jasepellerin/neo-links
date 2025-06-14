@@ -4,7 +4,7 @@ import { Section } from './Section'
 import { initialLinkSections, getLinkId } from '../data/links'
 import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
-import { TrashIcon } from '@heroicons/react/24/solid'
+import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(() => {
@@ -89,18 +89,18 @@ export const LinkGrid = () => {
 				<h1 className="text-4xl font-bold">Neo Links</h1>
 				<div className="flex items-center gap-2">
 					<button
-						onClick={() => setShowSectionModal(true)}
-						className="ml-4 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer"
-						title="Add Section"
-					>
-						<span className="text-2xl leading-none">＋</span>
-					</button>
-					<button
 						onClick={() => setDeleteMode((m) => !m)}
 						className={`ml-2 p-2 rounded-full ${deleteMode ? 'bg-red-600' : 'bg-neutral-300 dark:bg-neutral-700'} text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer`}
 						title="Delete Mode"
 					>
 						<TrashIcon className="w-5 h-5" />
+					</button>
+					<button
+						onClick={() => setShowSectionModal(true)}
+						className="ml-4 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer"
+						title="Add Section"
+					>
+						<PlusIcon className="w-5 h-5" />
 					</button>
 				</div>
 			</div>

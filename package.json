@@ -1,10 +1,10 @@
 {
-	"name": "maternal-healthcare",
-	"description": "Connected access to maternal healthcare providers",
+	"name": "neo-links",
+	"description": "Neo Links",
 	"version": "1.0.0",
 	"main": "src/index.tsx",
 	"license": "MIT",
-	"homepage": "https://jasepellerin.github.io/maternal-healthcare",
+	"homepage": "https://jasepellerin.github.io/neo-links",
 	"scripts": {
 		"dev:base": "webpack-cli serve --mode=development --env development --hot",
 		"dev": "nodemon --watch webpack.config.ts --watch package.json --ext ts,json --exec \"yarn dev:base\"",
