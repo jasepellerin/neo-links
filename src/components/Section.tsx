@@ -43,7 +43,7 @@ export const Section = ({
 					<div
 						ref={provided.innerRef}
 						{...provided.droppableProps}
-						className={`flex gap-2 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
+						className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
 						bg-gray-50 border-gray-200
 						dark:bg-neutral-800 dark:border-neutral-700
 						flex flex-wrap justify-around
@@ -62,7 +62,7 @@ export const Section = ({
 											ref={dragProvided.innerRef}
 											{...dragProvided.draggableProps}
 											{...dragProvided.dragHandleProps}
-											className={`select-none min-w-[60px] transition relative animate-fadein p-2 rounded-lg
+											className={`select-none min-w-[55px] transition relative animate-fadein p-1 rounded-lg
 											${dragSnapshot.isDragging ? 'bg-blue-100 shadow-lg dark:bg-blue-600 text-neutral-900' : ''}`}
 											style={dragProvided.draggableProps.style}
 										>
