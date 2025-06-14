@@ -16,10 +16,10 @@ export const AddLinkModal = ({ open, onClose, newLink, setNewLink, onAddLink }) 
 		</Field>
 		<Field className="mb-4">
 			<Label className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-200">
-				Href
+				Link
 			</Label>
 			<Input
-				placeholder="Href"
+				placeholder="Link URL"
 				value={newLink.href}
 				onChange={(e) => setNewLink({ ...newLink, href: e.target.value })}
 				className="border border-neutral-300 dark:border-neutral-700 rounded-lg px-2 py-2 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400 w-full"

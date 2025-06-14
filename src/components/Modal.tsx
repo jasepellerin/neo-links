@@ -16,7 +16,7 @@ export const Modal = ({ open, onClose, title, children }) => {
 			onClick={onClose}
 		>
 			<div
-				className="bg-white dark:bg-neutral-900 dark:text-neutral-100 p-6 sm:p-8 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 min-w-[320px] flex flex-col gap-4 transition-colors duration-200 mx-4"
+				className="bg-white dark:bg-neutral-900 dark:text-neutral-100 p-6 sm:p-8 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 flex flex-col gap-4 transition-colors duration-200 mx-4"
 				onClick={(e) => e.stopPropagation()}
 			>
 				{title && <h2 className="text-xl font-semibold mb-2 dark:text-white">{title}</h2>}

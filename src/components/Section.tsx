@@ -101,7 +101,7 @@ export const Section = ({
 				<div className="flex gap-2 mt-4 justify-end">
 					<button
 						onClick={() => setConfirmDeleteSection(false)}
-						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100"
+						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 cursor-pointer"
 					>
 						Cancel
 					</button>
@@ -110,7 +110,7 @@ export const Section = ({
 							setConfirmDeleteSection(false)
 							onDeleteSection()
 						}}
-						className="px-3 py-1 rounded bg-red-600 text-white"
+						className="px-3 py-1 rounded bg-red-600 text-white cursor-pointer"
 					>
 						Delete
 					</button>
@@ -125,7 +125,7 @@ export const Section = ({
 				<div className="flex gap-2 mt-4 justify-end">
 					<button
 						onClick={() => setConfirmDeleteLinkIdx(null)}
-						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100"
+						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 cursor-pointer"
 					>
 						Cancel
 					</button>
@@ -138,7 +138,7 @@ export const Section = ({
 								setConfirmDeleteLinkIdx(null)
 							}, 400)
 						}}
-						className="px-3 py-1 rounded bg-red-600 text-white"
+						className="px-3 py-1 rounded bg-red-600 text-white cursor-pointer"
 					>
 						Delete
 					</button>
