@@ -5,6 +5,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import ESLintPlugin from 'eslint-webpack-plugin'
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
 import packageJson from './package.json' with { type: 'json' }
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const webpackConfig = (env): webpack.Configuration => ({
 	entry: './src/index.tsx',
@@ -16,7 +17,7 @@ const webpackConfig = (env): webpack.Configuration => ({
 	output: {
 		path: path.join(import.meta.dirname, '/dist'),
 		filename: 'build.js',
-		publicPath: env.production || !env.development ? '/neo-links/' : '/'
+		publicPath: '/neo-links/'
 	},
 	module: {
 		rules: [
@@ -44,7 +45,10 @@ const webpackConfig = (env): webpack.Configuration => ({
 			'process.env.VERSION': JSON.stringify(packageJson.version)
 		}),
 		new ForkTsCheckerWebpackPlugin(),
-		new ESLintPlugin({ files: './src/**/*.{ts,tsx,js,jsx}', emitWarning: false })
+		new ESLintPlugin({ files: './src/**/*.{ts,tsx,js,jsx}', emitWarning: false }),
+		new CopyWebpackPlugin({
+			patterns: [{ from: 'src/styles.css', to: 'styles.css' }]
+		})
 	]
 })
 
