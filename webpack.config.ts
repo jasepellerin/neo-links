@@ -17,7 +17,7 @@ const webpackConfig = (env): webpack.Configuration => ({
 	output: {
 		path: path.join(import.meta.dirname, '/dist'),
 		filename: 'build.js',
-		publicPath: '/neo-links/'
+		publicPath: env.production ? '/neo-links/' : '/'
 	},
 	module: {
 		rules: [
