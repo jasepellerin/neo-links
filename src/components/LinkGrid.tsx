@@ -5,6 +5,15 @@ import { initialLinkSections, getLinkId } from '../data/links'
 import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
+import {
+	DndContext,
+	closestCenter,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	DragOverlay
+} from '@dnd-kit/core'
+import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(() => {
@@ -17,6 +26,9 @@ export const LinkGrid = () => {
 	const [showLinkModal, setShowLinkModal] = useState(false)
 	const [deleteMode, setDeleteMode] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
+	const [activeLink, setActiveLink] = useState(null)
+	const [draggedLink, setDraggedLink] = useState(null)
+	const sensors = useSensors(useSensor(PointerSensor))
 
 	const handleAddSection = () => {
 		if (!newSectionTitle.trim()) return
@@ -57,26 +69,60 @@ export const LinkGrid = () => {
 		)
 	}
 
-	const onDragEnd = (result) => {
-		const { source, destination } = result
-		if (!destination) return
-		if (source.droppableId === destination.droppableId && source.index === destination.index) return
+	const handleDragStart = (event) => {
+		const { active } = event
+		setActiveLink(active.id)
+		let found = null
+		linkSections.forEach((section) => {
+			const linkItem = section.links.find((item) => getLinkId(item) === active.id)
+			if (linkItem) found = linkItem
+		})
+		setDraggedLink(found)
+	}
 
-		const sourceSectionIdx = linkSections.findIndex((s) => s.title === source.droppableId)
-		const destSectionIdx = linkSections.findIndex((s) => s.title === destination.droppableId)
-
+	const handleDragEnd = (event) => {
+		const { active, over } = event
+		if (!over || active.id === over.id) {
+			setActiveLink(null)
+			setDraggedLink(null)
+			return
+		}
+		let sourceSectionIdx = -1
+		let sourceLinkIdx = -1
+		let destSectionIdx = -1
+		let destLinkIdx = -1
+		linkSections.forEach((section, sIdx) => {
+			const lIdx = section.links.findIndex((l) => getLinkId(l) === active.id)
+			if (lIdx !== -1) {
+				sourceSectionIdx = sIdx
+				sourceLinkIdx = lIdx
+			}
+			const dIdx = section.links.findIndex((l) => getLinkId(l) === over.id)
+			if (dIdx !== -1) {
+				destSectionIdx = sIdx
+				destLinkIdx = dIdx
+			}
+		})
+		if (
+			sourceSectionIdx === -1 ||
+			sourceLinkIdx === -1 ||
+			destSectionIdx === -1 ||
+			destLinkIdx === -1
+		) {
+			setActiveLink(null)
+			setDraggedLink(null)
+			return
+		}
 		if (sourceSectionIdx === destSectionIdx) {
-			const links = Array.from(linkSections[sourceSectionIdx].links)
-			const [removed] = links.splice(source.index, 1)
-			links.splice(destination.index, 0, removed)
+			const links = arrayMove(linkSections[sourceSectionIdx].links, sourceLinkIdx, destLinkIdx)
 			setLinkSections(
 				linkSections.map((s, idx) => (idx === sourceSectionIdx ? { ...s, links } : s))
 			)
 		} else {
-			const sourceLinks = Array.from(linkSections[sourceSectionIdx].links)
-			const [removed] = sourceLinks.splice(source.index, 1)
-			const destLinks = Array.from(linkSections[destSectionIdx].links)
-			destLinks.splice(destination.index, 0, removed)
+			const sourceLinks = [...linkSections[sourceSectionIdx].links]
+			const [removed] = sourceLinks.splice(sourceLinkIdx, 1)
+			const destLinks = [...linkSections[destSectionIdx].links]
+			destLinks.splice(destLinkIdx, 0, removed)
 			setLinkSections(
 				linkSections.map((s, idx) => {
 					if (idx === sourceSectionIdx) return { ...s, links: sourceLinks }
@@ -85,6 +131,8 @@ export const LinkGrid = () => {
 				})
 			)
 		}
+		setActiveLink(null)
+		setDraggedLink(null)
 	}
 
 	const handleExport = () => {
@@ -184,23 +232,41 @@ export const LinkGrid = () => {
 				setNewLink={setNewLink}
 				onAddLink={handleAddLink}
 			/>
-			<Section.DragDropContext onDragEnd={onDragEnd}>
+			<DndContext
+				sensors={sensors}
+				collisionDetection={closestCenter}
+				onDragStart={handleDragStart}
+				onDragEnd={handleDragEnd}
+			>
 				{linkSections.map((section) => (
-					<Section
+					<SortableContext
 						key={section.title}
-						section={section}
-						getLinkId={getLinkId}
-						Link={Link}
-						onAddLink={() => {
-							setNewLink({ href: '', title: '', src: '', section: section.title })
-							setShowLinkModal(true)
-						}}
-						deleteMode={deleteMode}
-						onDeleteSection={() => handleDeleteSection(section.title)}
-						onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
-					/>
+						items={section.links.map(getLinkId)}
+						strategy={rectSortingStrategy}
+					>
+						<Section
+							section={section}
+							getLinkId={getLinkId}
+							Link={Link}
+							onAddLink={() => {
+								setNewLink({ href: '', title: '', src: '', section: section.title })
+								setShowLinkModal(true)
+							}}
+							deleteMode={deleteMode}
+							onDeleteSection={() => handleDeleteSection(section.title)}
+							onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
+							activeLink={activeLink}
+						/>
+					</SortableContext>
 				))}
-			</Section.DragDropContext>
+				<DragOverlay>
+					{draggedLink ? (
+						<div className="w-[22%] p-1">
+							<Link {...draggedLink} />
+						</div>
+					) : null}
+				</DragOverlay>
+			</DndContext>
 		</div>
 	)
 }
