@@ -3,36 +3,34 @@ import { CSS } from '@dnd-kit/utilities'
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
+import { Link } from './Link'
 
 const LinkSortableItem = ({
 	link,
 	idx,
 	getLinkId,
-	Link,
 	deleteMode,
 	setConfirmDeleteLinkIdx,
-	fadingOutLinkIdx,
-	activeLink
+	fadingOutLinkIdx
 }) => {
 	const id = getLinkId(link)
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
 		id
 	})
-	const style = {
+	const style: React.CSSProperties = {
 		transform: CSS.Transform.toString(transform),
 		transition,
 		zIndex: isDragging ? 50 : undefined,
-		pointerEvents: isDragging ? ('none' as React.CSSProperties['pointerEvents']) : undefined,
-		opacity: activeLink === id ? 0 : 1
+		pointerEvents: isDragging ? ('none' as React.CSSProperties['pointerEvents']) : undefined
 	}
 	return (
 		<div
 			key={id}
-			ref={setNodeRef}
-			{...attributes}
-			{...listeners}
+			ref={!deleteMode ? setNodeRef : undefined}
+			{...(!deleteMode ? attributes : {})}
+			{...(!deleteMode ? listeners : {})}
 			style={style}
-			className={`select-none w-[22%] transition relative animate-fadein p-1 rounded-lg ${isDragging ? 'bg-blue-100 shadow-lg dark:bg-blue-600 text-neutral-900' : ''}`}
+			className={`select-none w-[22%] transition relative animate-fadein p-1 rounded-lg ${isDragging ? 'opacity-0 border-4 border-blue-400 dark:border-blue-600' : ''}`}
 		>
 			{deleteMode && (
 				<button
@@ -43,7 +41,11 @@ const LinkSortableItem = ({
 					<TrashIcon className="w-5 h-5" />
 				</button>
 			)}
-			<Link {...link} className={fadingOutLinkIdx === idx ? 'animate-fadeout' : 'animate-fadein'} />
+			<Link
+				{...link}
+				className={fadingOutLinkIdx === idx ? 'animate-fadeout' : 'animate-fadein'}
+				disabled={deleteMode}
+			/>
 		</div>
 	)
 }
@@ -51,12 +53,10 @@ const LinkSortableItem = ({
 export const Section = ({
 	section,
 	getLinkId,
-	Link,
 	onAddLink,
 	deleteMode,
 	onDeleteSection,
-	onDeleteLink,
-	activeLink
+	onDeleteLink
 }) => {
 	const [confirmDeleteSection, setConfirmDeleteSection] = useState(false)
 	const [confirmDeleteLinkIdx, setConfirmDeleteLinkIdx] = useState(null)
@@ -102,11 +102,9 @@ export const Section = ({
 							link={link}
 							idx={idx}
 							getLinkId={getLinkId}
-							Link={Link}
 							deleteMode={deleteMode}
 							setConfirmDeleteLinkIdx={setConfirmDeleteLinkIdx}
 							fadingOutLinkIdx={fadingOutLinkIdx}
-							activeLink={activeLink}
 						/>
 					))
 				)}

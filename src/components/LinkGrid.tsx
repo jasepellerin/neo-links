@@ -11,7 +11,8 @@ import {
 	PointerSensor,
 	useSensor,
 	useSensors,
-	DragOverlay
+	DragOverlay,
+	TouchSensor
 } from '@dnd-kit/core'
 import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 
@@ -26,9 +27,9 @@ export const LinkGrid = () => {
 	const [showLinkModal, setShowLinkModal] = useState(false)
 	const [deleteMode, setDeleteMode] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const [activeLink, setActiveLink] = useState(null)
 	const [draggedLink, setDraggedLink] = useState(null)
-	const sensors = useSensors(useSensor(PointerSensor))
+	const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor))
+	console.log('DnD sensors created', sensors)
 
 	const handleAddSection = () => {
 		if (!newSectionTitle.trim()) return
@@ -70,8 +71,8 @@ export const LinkGrid = () => {
 	}
 
 	const handleDragStart = (event) => {
+		console.log('handleDragStart', event)
 		const { active } = event
-		setActiveLink(active.id)
 		let found = null
 		linkSections.forEach((section) => {
 			const linkItem = section.links.find((item) => getLinkId(item) === active.id)
@@ -81,9 +82,9 @@ export const LinkGrid = () => {
 	}
 
 	const handleDragEnd = (event) => {
+		console.log('handleDragEnd', event)
 		const { active, over } = event
 		if (!over || active.id === over.id) {
-			setActiveLink(null)
 			setDraggedLink(null)
 			return
 		}
@@ -109,7 +110,6 @@ export const LinkGrid = () => {
 			destSectionIdx === -1 ||
 			destLinkIdx === -1
 		) {
-			setActiveLink(null)
 			setDraggedLink(null)
 			return
 		}
@@ -131,7 +131,10 @@ export const LinkGrid = () => {
 				})
 			)
 		}
-		setActiveLink(null)
+		setDraggedLink(null)
+	}
+
+	const handleDragCancel = () => {
 		setDraggedLink(null)
 	}
 
@@ -168,9 +171,49 @@ export const LinkGrid = () => {
 		reader.readAsText(file)
 	}
 
+	const handleDragOver = (event) => {
+		const { active, over } = event
+		if (!over || active.id === over.id) return
+		let sourceSectionIdx = -1
+		let sourceLinkIdx = -1
+		let destSectionIdx = -1
+		let destLinkIdx = -1
+		linkSections.forEach((section, sIdx) => {
+			const lIdx = section.links.findIndex((l) => getLinkId(l) === active.id)
+			if (lIdx !== -1) {
+				sourceSectionIdx = sIdx
+				sourceLinkIdx = lIdx
+			}
+			const dIdx = section.links.findIndex((l) => getLinkId(l) === over.id)
+			if (dIdx !== -1) {
+				destSectionIdx = sIdx
+				destLinkIdx = dIdx
+			}
+		})
+		if (
+			sourceSectionIdx === -1 ||
+			sourceLinkIdx === -1 ||
+			destSectionIdx === -1 ||
+			destLinkIdx === -1 ||
+			sourceSectionIdx === destSectionIdx
+		) {
+			return
+		}
+		const sourceLinks = [...linkSections[sourceSectionIdx].links]
+		const [removed] = sourceLinks.splice(sourceLinkIdx, 1)
+		const destLinks = [...linkSections[destSectionIdx].links]
+		destLinks.splice(destLinkIdx, 0, removed)
+		const newSections = linkSections.map((s, idx) => {
+			if (idx === sourceSectionIdx) return { ...s, links: sourceLinks }
+			if (idx === destSectionIdx) return { ...s, links: destLinks }
+			return s
+		})
+		setLinkSections(newSections)
+	}
+
 	useEffect(() => {
 		localStorage.setItem('neo-links-sections', JSON.stringify(linkSections))
-	}, [linkSections])
+	})
 
 	return (
 		<div className="flex flex-col gap-2.5 p-4 min-h-screen bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
@@ -237,6 +280,8 @@ export const LinkGrid = () => {
 				collisionDetection={closestCenter}
 				onDragStart={handleDragStart}
 				onDragEnd={handleDragEnd}
+				onDragCancel={handleDragCancel}
+				onDragOver={handleDragOver}
 			>
 				{linkSections.map((section) => (
 					<SortableContext
@@ -247,7 +292,6 @@ export const LinkGrid = () => {
 						<Section
 							section={section}
 							getLinkId={getLinkId}
-							Link={Link}
 							onAddLink={() => {
 								setNewLink({ href: '', title: '', src: '', section: section.title })
 								setShowLinkModal(true)
@@ -255,13 +299,12 @@ export const LinkGrid = () => {
 							deleteMode={deleteMode}
 							onDeleteSection={() => handleDeleteSection(section.title)}
 							onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
-							activeLink={activeLink}
 						/>
 					</SortableContext>
 				))}
 				<DragOverlay>
 					{draggedLink ? (
-						<div className="w-[22%] p-1">
+						<div className="w-48 max-w-full p-1 z-50 ring-4 ring-blue-400 dark:ring-blue-600 shadow-md bg-white dark:bg-neutral-800 rounded-lg">
 							<Link {...draggedLink} />
 						</div>
 					) : null}
