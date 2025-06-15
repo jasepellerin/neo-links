@@ -62,7 +62,7 @@ export const Section = ({
 											ref={dragProvided.innerRef}
 											{...dragProvided.draggableProps}
 											{...dragProvided.dragHandleProps}
-											className={`select-none min-w-[55px] transition relative animate-fadein p-1 rounded-lg
+											className={`select-none w-[22%] transition relative animate-fadein p-1 rounded-lg
 											${dragSnapshot.isDragging ? 'bg-blue-100 shadow-lg dark:bg-blue-600 text-neutral-900' : ''}`}
 											style={dragProvided.draggableProps.style}
 										>

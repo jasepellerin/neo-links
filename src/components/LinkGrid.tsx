@@ -4,7 +4,7 @@ import { Section } from './Section'
 import { initialLinkSections, getLinkId } from '../data/links'
 import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
-import { TrashIcon, PlusIcon, ArrowUpTrayIcon, ArrowDownTrayIcon } from '@heroicons/react/24/solid'
+import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(() => {
@@ -26,9 +26,16 @@ export const LinkGrid = () => {
 		setShowSectionModal(false)
 	}
 
+	// Don't allow duplicate links w/ same key
 	const handleAddLink = () => {
 		const { href, title, src, section } = newLink
 		if (!href || !title || !section) return
+
+		if (linkSections.some((s) => s.links.some((l) => l.href === href && l.title === title))) {
+			alert('Cannot add duplicate link')
+			return
+		}
+
 		setLinkSections(
 			linkSections.map((s) =>
 				s.title === section ? { ...s, links: [...s.links, { href, title, src }] } : s
