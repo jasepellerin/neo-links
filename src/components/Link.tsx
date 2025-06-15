@@ -8,7 +8,7 @@ export const Link = ({ href, title, src }: { href: string; title: string; src: s
 				href={href}
 				target="_blank"
 				rel="noopener noreferrer"
-				className="flex flex-col items-center justify-center gap-2"
+				className="flex flex-col items-center justify-center gap-2 h-30"
 			>
 				<div className="bg-white/90 dark:bg-neutral-800/80 p-3 rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-xl group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105">
 					{showSrc ? (

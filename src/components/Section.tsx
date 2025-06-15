@@ -30,7 +30,7 @@ const LinkSortableItem = ({
 			{...(!deleteMode ? attributes : {})}
 			{...(!deleteMode ? listeners : {})}
 			style={style}
-			className={`select-none w-[22%] transition relative animate-fadein p-1 rounded-lg ${isDragging ? 'opacity-0 border-4 border-blue-400 dark:border-blue-600' : ''}`}
+			className={`select-none w-[22%] transition relative p-1 rounded-lg ${isDragging ? 'opacity-0 border-4 border-blue-400 dark:border-blue-600' : ''}`}
 		>
 			{deleteMode && (
 				<button

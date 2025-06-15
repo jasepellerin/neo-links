@@ -346,6 +346,15 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
+  .h-24 {
+    height: calc(var(--spacing) * 24);
+  }
+  .h-30 {
+    height: calc(var(--spacing) * 30);
+  }
+  .h-48 {
+    height: calc(var(--spacing) * 48);
+  }
   .h-\[50px\] {
     height: 50px;
   }
