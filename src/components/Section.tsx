@@ -2,25 +2,28 @@ import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
 import { Link } from './Link'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableLink } from './SortableLink'
 
 export const Section = ({
 	section,
 	getLinkId,
 	onAddLink,
-	deleteMode,
+	organizeMode,
 	onDeleteSection,
 	onDeleteLink
 }) => {
 	const [confirmDeleteSection, setConfirmDeleteSection] = useState(false)
 	const [confirmDeleteLinkIdx, setConfirmDeleteLinkIdx] = useState(null)
 	const [fadingOutLinkIdx, setFadingOutLinkIdx] = useState(null)
+	const linkIds = section.links.map((l) => getLinkId(l))
 
 	return (
 		<div>
 			<div className="flex items-center justify-between mb-2">
 				<h2 className="text-2xl font-semibold">{section.title}</h2>
 				<div className="flex items-center gap-2">
-					{deleteMode && (
+					{organizeMode && (
 						<button
 							onClick={() => setConfirmDeleteSection(true)}
 							className="ml-2 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
@@ -38,34 +41,33 @@ export const Section = ({
 					</button>
 				</div>
 			</div>
-			<div
-				className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
+			<SortableContext items={linkIds} strategy={verticalListSortingStrategy} id={section.title}>
+				<div
+					className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
 				bg-gray-50 border-gray-200
 				dark:bg-neutral-800 dark:border-neutral-700
 				flex flex-wrap justify-around`}
-			>
-				{section.links.length === 0 ? (
-					<div className="flex flex-1 items-center justify-center text-neutral-400 dark:text-neutral-500 italic min-h-[64px]">
-						No links yet. Click <PlusIcon className="inline w-4 h-4 align-text-bottom" /> to add
-						one!
-					</div>
-				) : (
-					section.links.map((link, idx) => (
-						<div
-							key={getLinkId(link)}
-							className="select-none w-[22%] min-w-[80px] transition p-1 rounded-lg group"
-						>
-							<Link
-								{...link}
+				>
+					{section.links.length === 0 ? (
+						<div className="flex flex-1 items-center justify-center text-neutral-400 dark:text-neutral-500 italic min-h-[64px]">
+							No links yet. Click <PlusIcon className="inline w-4 h-4 align-text-bottom" /> to add
+							one!
+						</div>
+					) : (
+						section.links.map((link, idx) => (
+							<SortableLink
+								key={getLinkId(link)}
+								id={getLinkId(link)}
+								link={link}
 								className={fadingOutLinkIdx === idx ? 'animate-fadeout' : 'animate-fadein'}
-								disabled={deleteMode}
-								deleteMode={deleteMode}
+								disabled={organizeMode}
+								organizeMode={organizeMode}
 								onDelete={() => setConfirmDeleteLinkIdx(idx)}
 							/>
-						</div>
-					))
-				)}
-			</div>
+						))
+					)}
+				</div>
+			</SortableContext>
 			<Modal
 				open={confirmDeleteSection}
 				onClose={() => setConfirmDeleteSection(false)}
