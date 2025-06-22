@@ -22,13 +22,13 @@ export const Link = ({
 		<div className={`w-[100%] relative group ${className || ''}`}>
 			<Tag {...props} className={`flex flex-col items-center justify-start gap-2 h-32`}>
 				<div
-					className={`relative w-16 h-16 flex items-center justify-center ${disabled ? '' : 'group-hover:shadow-xl group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
+					className={`relative w-16 h-16 flex items-center justify-center ${disabled ? '' : 'group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
 				>
 					<div className={`flex items-center justify-center ${disabled ? 'opacity-50' : ''}`}>
 						{showSrc ? (
 							<img src={src} alt={title} className="w-full h-full object-contain" />
 						) : (
-							<LinkIcon className="w-10 h-10" />
+							<LinkIcon className="w-10 h-10 text-neutral-400 dark:text-neutral-500" />
 						)}
 					</div>
 				</div>

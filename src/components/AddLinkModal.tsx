@@ -16,10 +16,10 @@ export const AddLinkModal = ({ open, onClose, newLink, setNewLink, onAddLink, is
 		</Field>
 		<Field className="mb-4">
 			<Label className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-200">
-				Link
+				Link URL
 			</Label>
 			<Input
-				placeholder="Link URL"
+				placeholder="Link"
 				value={newLink.href}
 				onChange={(e) => setNewLink({ ...newLink, href: e.target.value })}
 				className="border border-neutral-300 dark:border-neutral-700 rounded-lg px-2 py-2 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400 w-full"
@@ -27,10 +27,10 @@ export const AddLinkModal = ({ open, onClose, newLink, setNewLink, onAddLink, is
 		</Field>
 		<Field className="mb-4">
 			<Label className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-200">
-				Image src <span className="text-xs text-neutral-400">(optional)</span>
+				Image URL <span className="text-xs text-neutral-400">(optional)</span>
 			</Label>
 			<Input
-				placeholder="Image src (optional)"
+				placeholder="Image"
 				value={newLink.src}
 				onChange={(e) => setNewLink({ ...newLink, src: e.target.value })}
 				className="border border-neutral-300 dark:border-neutral-700 rounded-lg px-2 py-2 text-base bg-transparent focus:outline-none focus:ring-2 focus:ring-emerald-400 w-full"

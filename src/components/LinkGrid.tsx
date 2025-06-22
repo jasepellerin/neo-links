@@ -57,6 +57,10 @@ export const LinkGrid = () => {
 	const activeLink = activeId ? findLink(activeId)?.link : null
 
 	useEffect(() => {
+		localStorage.setItem('neo-links-sections', JSON.stringify(linkSections))
+	}, [linkSections])
+
+	useEffect(() => {
 		if (!editMode) {
 			setSelectedLinkIds([])
 		}
@@ -242,7 +246,6 @@ export const LinkGrid = () => {
 		a.click()
 		document.body.removeChild(a)
 		URL.revokeObjectURL(url)
-		localStorage.setItem('neo-links-sections', JSON.stringify(linkSections))
 	}
 
 	const handleImportClick = () => {
@@ -274,10 +277,10 @@ export const LinkGrid = () => {
 		>
 			<div
 				ref={scrollContainerRef}
-				className="flex flex-col gap-2.5 px-4 pb-48 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
+				className="flex flex-col gap-2.5 pb-48 h-screen overflow-y-auto bg-gray-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
 			>
-				<div className="flex flex-col sm:flex-row gap-2 pt-4 pb-4 sticky top-0 bg-neutral-100 dark:bg-neutral-900 z-100">
-					<div className="flex items-center justify-between w-full">
+				<div className="flex flex-col sm:flex-row gap-2 pt-4 pb-4 sticky top-0 bg-gray-100 dark:bg-neutral-900 z-100">
+					<div className="flex items-center justify-between w-full  px-4">
 						<div className="flex items-center gap-2">
 							<button
 								onClick={handleExport}
@@ -304,7 +307,7 @@ export const LinkGrid = () => {
 						<div className="flex items-center gap-2">
 							<button
 								onClick={() => setEditMode((m) => !m)}
-								className={`p-2 rounded-full ${editMode ? 'bg-indigo-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700'}  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer`}
+								className={`p-2 rounded-full ${editMode ? 'bg-indigo-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-300'}  hover:bg-indigo-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer`}
 								title="Edit Links"
 							>
 								<PencilIcon className="w-5 h-5" />
@@ -338,35 +341,37 @@ export const LinkGrid = () => {
 					onAddLink={handleAddLink}
 					isEditing={!!editingLinkId}
 				/>
-				{linkSections.map((section, index) => (
-					<Section
-						key={section.title}
-						section={section}
-						getLinkId={getLinkId}
-						onAddLink={() => {
-							setNewLink({ href: '', title: '', src: '', section: section.title })
-							setShowLinkModal(true)
-						}}
-						editMode={editMode}
-						onDeleteSection={() => handleDeleteSection(section.title)}
-						onRenameSection={(newTitle: string) => handleRenameSection(section.title, newTitle)}
-						onMoveUp={() => handleMoveSection(section.title, 'up')}
-						onMoveDown={() => handleMoveSection(section.title, 'down')}
-						isFirst={index === 0}
-						isLast={index === linkSections.length - 1}
-						selectedLinkIds={selectedLinkIds}
-						onToggleSelectLink={(linkId) => {
-							setSelectedLinkIds((current) =>
-								current.includes(linkId)
-									? current.filter((id) => id !== linkId)
-									: [...current, linkId]
-							)
-						}}
-					/>
-				))}
+				<div className="px-4">
+					{linkSections.map((section, index) => (
+						<Section
+							key={section.title}
+							section={section}
+							getLinkId={getLinkId}
+							onAddLink={() => {
+								setNewLink({ href: '', title: '', src: '', section: section.title })
+								setShowLinkModal(true)
+							}}
+							editMode={editMode}
+							onDeleteSection={() => handleDeleteSection(section.title)}
+							onRenameSection={(newTitle: string) => handleRenameSection(section.title, newTitle)}
+							onMoveUp={() => handleMoveSection(section.title, 'up')}
+							onMoveDown={() => handleMoveSection(section.title, 'down')}
+							isFirst={index === 0}
+							isLast={index === linkSections.length - 1}
+							selectedLinkIds={selectedLinkIds}
+							onToggleSelectLink={(linkId) => {
+								setSelectedLinkIds((current) =>
+									current.includes(linkId)
+										? current.filter((id) => id !== linkId)
+										: [...current, linkId]
+								)
+							}}
+						/>
+					))}
+				</div>
 			</div>
-			<DragOverlay>{activeLink ? <Link {...activeLink} /> : null}</DragOverlay>
-			{editMode && selectedLinkIds.length > 0 && (
+			<DragOverlay>{activeLink ? <Link {...activeLink} disabled={true} /> : null}</DragOverlay>
+			{editMode && (
 				<ActionBar
 					selectedCount={selectedLinkIds.length}
 					onMove={selectedLinkIds.length > 0 ? () => setShowMoveLinksModal(true) : undefined}

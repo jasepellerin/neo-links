@@ -40,7 +40,7 @@ export const Section = ({
 								setNewSectionTitle(section.title)
 								setIsRenaming(true)
 							}}
-							className="p-1.5 rounded-full text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer"
+							className="p-1.5 rounded-full text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer"
 							title="Rename Section"
 						>
 							<PencilIcon className="w-4 h-4" />
@@ -53,7 +53,7 @@ export const Section = ({
 							<button
 								onClick={onMoveUp}
 								disabled={isFirst}
-								className="p-1.5 rounded-full text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+								className="p-1.5 rounded-full text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
 								title="Move Section Up"
 							>
 								<ArrowUpIcon className="w-4 h-4" />
@@ -61,38 +61,40 @@ export const Section = ({
 							<button
 								onClick={onMoveDown}
 								disabled={isLast}
-								className="p-1.5 rounded-full text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+								className="p-1.5 rounded-full text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
 								title="Move Section Down"
 							>
 								<ArrowDownIcon className="w-4 h-4" />
 							</button>
 							<button
 								onClick={() => setConfirmDeleteSection(true)}
-								className="ml-2 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
+								className="ml-2 p-1.5 rounded-full bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
 								title="Delete Section"
 							>
 								<TrashIcon className="w-5 h-5" />
 							</button>
 						</>
 					)}
-					<button
-						onClick={onAddLink}
-						className="ml-2 p-1.5 rounded-full text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 flex items-center justify-center cursor-pointer"
-						title="Add Link"
-					>
-						<PlusIcon className="w-5 h-5" />
-					</button>
+					{!editMode && (
+						<button
+							onClick={onAddLink}
+							className="ml-2 p-1.5 rounded-full text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 flex items-center justify-center cursor-pointer"
+							title="Add Link"
+						>
+							<PlusIcon className="w-5 h-5" />
+						</button>
+					)}
 				</div>
 			</div>
 			<SortableContext items={linkIds} strategy={verticalListSortingStrategy} id={section.title}>
 				<div
 					className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
-				bg-gray-50 border-gray-200
+				bg-white border-neutral-200
 				dark:bg-neutral-800 dark:border-neutral-700
 				flex flex-wrap justify-around`}
 				>
 					{section.links.length === 0 ? (
-						<div className="flex flex-1 items-center justify-center text-neutral-400 dark:text-neutral-500 italic min-h-[64px]">
+						<div className="flex flex-1 items-center justify-center text-neutral-500 dark:text-neutral-500 italic min-h-[64px]">
 							No links yet. Click + to add one!
 						</div>
 					) : (
@@ -114,7 +116,7 @@ export const Section = ({
 				<div>
 					<label
 						htmlFor="section-name"
-						className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+						className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
 					>
 						Section Name
 					</label>
@@ -123,7 +125,7 @@ export const Section = ({
 						id="section-name"
 						value={newSectionTitle}
 						onChange={(e) => setNewSectionTitle(e.target.value)}
-						className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-gray-300 dark:border-neutral-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+						className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-neutral-900 dark:text-neutral-100"
 					/>
 				</div>
 				<div className="flex gap-2 mt-4 justify-end">
@@ -138,7 +140,7 @@ export const Section = ({
 							onRenameSection(newSectionTitle)
 							setIsRenaming(false)
 						}}
-						className="px-3 py-1 rounded bg-emerald-600 text-white"
+						className="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white"
 					>
 						Save
 					</button>
@@ -162,7 +164,7 @@ export const Section = ({
 							setConfirmDeleteSection(false)
 							onDeleteSection()
 						}}
-						className="px-3 py-1 rounded bg-red-600 text-white"
+						className="px-3 py-1 rounded bg-red-600 hover:bg-red-700 text-white"
 					>
 						Delete
 					</button>
