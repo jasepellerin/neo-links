@@ -1,7 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Link } from './Link'
-import { Bars3Icon } from '@heroicons/react/24/solid'
 
 export const SortableLink = ({ id, link, editMode, className, isSelected, onToggleSelect }) => {
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -19,7 +18,7 @@ export const SortableLink = ({ id, link, editMode, className, isSelected, onTogg
 		<div
 			ref={setNodeRef}
 			style={style}
-			className={`select-none w-[15%] min-w-[45px] transition p-1 rounded-lg group relative ${
+			className={`select-none w-[18%] min-w-[45px] transition p-1 rounded-lg group relative ${
 				isSelected ? 'ring-2 ring-indigo-500 bg-indigo-100 dark:bg-indigo-900/30' : ''
 			}`}
 		>
@@ -31,20 +30,15 @@ export const SortableLink = ({ id, link, editMode, className, isSelected, onTogg
 					}
 				}}
 			>
-				<Link {...link} className={className} disabled={editMode} />
+				<Link
+					{...link}
+					className={className}
+					disabled={editMode}
+					editMode={editMode}
+					attributes={attributes}
+					listeners={listeners}
+				/>
 			</div>
-			{editMode && (
-				<div
-					{...attributes}
-					{...listeners}
-					className="absolute top-1 right-1 p-2 rounded-full bg-neutral-500/10 hover:bg-neutral-500/30 cursor-grab touch-none"
-					onClick={(e) => {
-						e.stopPropagation()
-					}}
-				>
-					<Bars3Icon className="w-5 h-5 text-neutral-800 dark:text-neutral-100" />
-				</div>
-			)}
 		</div>
 	)
 }
