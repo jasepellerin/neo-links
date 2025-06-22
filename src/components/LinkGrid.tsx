@@ -118,6 +118,17 @@ export const LinkGrid = () => {
 		setLinkSections(linkSections.filter((s) => s.title !== title))
 	}
 
+	const handleRenameSection = (oldTitle: string, newTitle: string) => {
+		if (!newTitle.trim()) return
+		if (linkSections.some((s) => s.title === newTitle.trim())) {
+			alert('A section with this title already exists.')
+			return
+		}
+		setLinkSections(
+			linkSections.map((s) => (s.title === oldTitle ? { ...s, title: newTitle.trim() } : s))
+		)
+	}
+
 	const handleDeleteSelectedLinks = () => {
 		setLinkSections((sections) =>
 			sections.map((s) => ({
@@ -328,6 +339,7 @@ export const LinkGrid = () => {
 						}}
 						editMode={editMode}
 						onDeleteSection={() => handleDeleteSection(section.title)}
+						onRenameSection={(newTitle: string) => handleRenameSection(section.title, newTitle)}
 						selectedLinkIds={selectedLinkIds}
 						onToggleSelectLink={(linkId) => {
 							setSelectedLinkIds((current) =>

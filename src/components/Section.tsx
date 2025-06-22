@@ -1,4 +1,4 @@
-import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
+import { TrashIcon, PlusIcon, PencilIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -10,16 +10,33 @@ export const Section = ({
 	onAddLink,
 	editMode,
 	onDeleteSection,
+	onRenameSection,
 	selectedLinkIds,
 	onToggleSelectLink
 }) => {
 	const [confirmDeleteSection, setConfirmDeleteSection] = useState(false)
+	const [isRenaming, setIsRenaming] = useState(false)
+	const [newSectionTitle, setNewSectionTitle] = useState(section.title)
 	const linkIds = section.links.map((l) => getLinkId(l))
 
 	return (
 		<div>
 			<div className="flex items-center justify-between mb-2">
-				<h2 className="text-2xl font-semibold">{section.title}</h2>
+				<div className="flex items-center gap-2">
+					<h2 className="text-2xl font-semibold">{section.title}</h2>
+					{editMode && (
+						<button
+							onClick={() => {
+								setNewSectionTitle(section.title)
+								setIsRenaming(true)
+							}}
+							className="p-1.5 rounded-full text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer"
+							title="Rename Section"
+						>
+							<PencilIcon className="w-4 h-4" />
+						</button>
+					)}
+				</div>
 				<div className="flex items-center gap-2">
 					{editMode && (
 						<button
@@ -66,6 +83,40 @@ export const Section = ({
 					)}
 				</div>
 			</SortableContext>
+			<Modal open={isRenaming} onClose={() => setIsRenaming(false)} title="Rename Section">
+				<div>
+					<label
+						htmlFor="section-name"
+						className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+					>
+						Section Name
+					</label>
+					<input
+						type="text"
+						id="section-name"
+						value={newSectionTitle}
+						onChange={(e) => setNewSectionTitle(e.target.value)}
+						className="mt-1 block w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-gray-300 dark:border-neutral-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+					/>
+				</div>
+				<div className="flex gap-2 mt-4 justify-end">
+					<button
+						onClick={() => setIsRenaming(false)}
+						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 cursor-pointer"
+					>
+						Cancel
+					</button>
+					<button
+						onClick={() => {
+							onRenameSection(newSectionTitle)
+							setIsRenaming(false)
+						}}
+						className="px-3 py-1 rounded bg-emerald-600 text-white"
+					>
+						Save
+					</button>
+				</div>
+			</Modal>
 			<Modal
 				open={confirmDeleteSection}
 				onClose={() => setConfirmDeleteSection(false)}
