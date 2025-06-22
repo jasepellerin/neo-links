@@ -5,7 +5,8 @@ import {
 	DragOverlay,
 	DragStartEvent,
 	KeyboardSensor,
-	PointerSensor,
+	MouseSensor,
+	TouchSensor,
 	closestCorners,
 	useSensor,
 	useSensors,
@@ -47,10 +48,17 @@ export const LinkGrid = () => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
 
 	const sensors = useSensors(
-		useSensor(PointerSensor, {
+		useSensor(MouseSensor, {
+			// Require the mouse to move by 10 pixels before activating
 			activationConstraint: {
-				delay: 100, // In milliseconds
-				tolerance: 5 // Pixels
+				distance: 10
+			}
+		}),
+		useSensor(TouchSensor, {
+			// Press delay of 250ms, with a tolerance of 5px of movement
+			activationConstraint: {
+				delay: 250,
+				tolerance: 5
 			}
 		}),
 		useSensor(KeyboardSensor, {
