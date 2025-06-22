@@ -1,37 +1,11 @@
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
 import { Link } from './Link'
 
-const LinkSortableItem = ({
-	link,
-	idx,
-	getLinkId,
-	deleteMode,
-	setConfirmDeleteLinkIdx,
-	fadingOutLinkIdx
-}) => {
-	const id = getLinkId(link)
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-		id
-	})
-	const style: React.CSSProperties = {
-		transform: CSS.Transform.toString(transform),
-		transition,
-		zIndex: isDragging ? 50 : undefined,
-		pointerEvents: isDragging ? ('none' as React.CSSProperties['pointerEvents']) : undefined
-	}
+const LinkItem = ({ link, idx, deleteMode, setConfirmDeleteLinkIdx, fadingOutLinkIdx }) => {
 	return (
-		<div
-			key={id}
-			ref={!deleteMode ? setNodeRef : undefined}
-			{...(!deleteMode ? attributes : {})}
-			{...(!deleteMode ? listeners : {})}
-			style={style}
-			className={`select-none w-[22%] transition relative p-1 rounded-lg ${isDragging ? 'opacity-0 border-4 border-blue-400 dark:border-blue-600' : ''}`}
-		>
+		<div className={`select-none w-[22%] min-w-[80px] transition relative p-1 rounded-lg`}>
 			{deleteMode && (
 				<button
 					onClick={() => setConfirmDeleteLinkIdx(idx)}
@@ -61,6 +35,7 @@ export const Section = ({
 	const [confirmDeleteSection, setConfirmDeleteSection] = useState(false)
 	const [confirmDeleteLinkIdx, setConfirmDeleteLinkIdx] = useState(null)
 	const [fadingOutLinkIdx, setFadingOutLinkIdx] = useState(null)
+
 	return (
 		<div>
 			<div className="flex items-center justify-between mb-2">
@@ -97,11 +72,10 @@ export const Section = ({
 					</div>
 				) : (
 					section.links.map((link, idx) => (
-						<LinkSortableItem
+						<LinkItem
 							key={getLinkId(link)}
 							link={link}
 							idx={idx}
-							getLinkId={getLinkId}
 							deleteMode={deleteMode}
 							setConfirmDeleteLinkIdx={setConfirmDeleteLinkIdx}
 							fadingOutLinkIdx={fadingOutLinkIdx}

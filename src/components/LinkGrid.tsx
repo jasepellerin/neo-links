@@ -1,20 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link } from './Link'
 import { Section } from './Section'
 import { initialLinkSections, getLinkId } from '../data/links'
 import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/solid'
-import {
-	DndContext,
-	closestCenter,
-	PointerSensor,
-	useSensor,
-	useSensors,
-	DragOverlay,
-	TouchSensor
-} from '@dnd-kit/core'
-import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(() => {
@@ -27,9 +16,7 @@ export const LinkGrid = () => {
 	const [showLinkModal, setShowLinkModal] = useState(false)
 	const [deleteMode, setDeleteMode] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
-	const [draggedLink, setDraggedLink] = useState(null)
-	const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor))
-	console.log('DnD sensors created', sensors)
+	const scrollContainerRef = useRef<HTMLDivElement>(null)
 
 	const handleAddSection = () => {
 		if (!newSectionTitle.trim()) return
@@ -70,74 +57,6 @@ export const LinkGrid = () => {
 		)
 	}
 
-	const handleDragStart = (event) => {
-		console.log('handleDragStart', event)
-		const { active } = event
-		let found = null
-		linkSections.forEach((section) => {
-			const linkItem = section.links.find((item) => getLinkId(item) === active.id)
-			if (linkItem) found = linkItem
-		})
-		setDraggedLink(found)
-	}
-
-	const handleDragEnd = (event) => {
-		console.log('handleDragEnd', event)
-		const { active, over } = event
-		if (!over || active.id === over.id) {
-			setDraggedLink(null)
-			return
-		}
-		let sourceSectionIdx = -1
-		let sourceLinkIdx = -1
-		let destSectionIdx = -1
-		let destLinkIdx = -1
-		linkSections.forEach((section, sIdx) => {
-			const lIdx = section.links.findIndex((l) => getLinkId(l) === active.id)
-			if (lIdx !== -1) {
-				sourceSectionIdx = sIdx
-				sourceLinkIdx = lIdx
-			}
-			const dIdx = section.links.findIndex((l) => getLinkId(l) === over.id)
-			if (dIdx !== -1) {
-				destSectionIdx = sIdx
-				destLinkIdx = dIdx
-			}
-		})
-		if (
-			sourceSectionIdx === -1 ||
-			sourceLinkIdx === -1 ||
-			destSectionIdx === -1 ||
-			destLinkIdx === -1
-		) {
-			setDraggedLink(null)
-			return
-		}
-		if (sourceSectionIdx === destSectionIdx) {
-			const links = arrayMove(linkSections[sourceSectionIdx].links, sourceLinkIdx, destLinkIdx)
-			setLinkSections(
-				linkSections.map((s, idx) => (idx === sourceSectionIdx ? { ...s, links } : s))
-			)
-		} else {
-			const sourceLinks = [...linkSections[sourceSectionIdx].links]
-			const [removed] = sourceLinks.splice(sourceLinkIdx, 1)
-			const destLinks = [...linkSections[destSectionIdx].links]
-			destLinks.splice(destLinkIdx, 0, removed)
-			setLinkSections(
-				linkSections.map((s, idx) => {
-					if (idx === sourceSectionIdx) return { ...s, links: sourceLinks }
-					if (idx === destSectionIdx) return { ...s, links: destLinks }
-					return s
-				})
-			)
-		}
-		setDraggedLink(null)
-	}
-
-	const handleDragCancel = () => {
-		setDraggedLink(null)
-	}
-
 	const handleExport = () => {
 		const dataStr = JSON.stringify(linkSections, null, 2)
 		const blob = new Blob([dataStr], { type: 'application/json' })
@@ -171,52 +90,15 @@ export const LinkGrid = () => {
 		reader.readAsText(file)
 	}
 
-	const handleDragOver = (event) => {
-		const { active, over } = event
-		if (!over || active.id === over.id) return
-		let sourceSectionIdx = -1
-		let sourceLinkIdx = -1
-		let destSectionIdx = -1
-		let destLinkIdx = -1
-		linkSections.forEach((section, sIdx) => {
-			const lIdx = section.links.findIndex((l) => getLinkId(l) === active.id)
-			if (lIdx !== -1) {
-				sourceSectionIdx = sIdx
-				sourceLinkIdx = lIdx
-			}
-			const dIdx = section.links.findIndex((l) => getLinkId(l) === over.id)
-			if (dIdx !== -1) {
-				destSectionIdx = sIdx
-				destLinkIdx = dIdx
-			}
-		})
-		if (
-			sourceSectionIdx === -1 ||
-			sourceLinkIdx === -1 ||
-			destSectionIdx === -1 ||
-			destLinkIdx === -1 ||
-			sourceSectionIdx === destSectionIdx
-		) {
-			return
-		}
-		const sourceLinks = [...linkSections[sourceSectionIdx].links]
-		const [removed] = sourceLinks.splice(sourceLinkIdx, 1)
-		const destLinks = [...linkSections[destSectionIdx].links]
-		destLinks.splice(destLinkIdx, 0, removed)
-		const newSections = linkSections.map((s, idx) => {
-			if (idx === sourceSectionIdx) return { ...s, links: sourceLinks }
-			if (idx === destSectionIdx) return { ...s, links: destLinks }
-			return s
-		})
-		setLinkSections(newSections)
-	}
-
 	useEffect(() => {
 		localStorage.setItem('neo-links-sections', JSON.stringify(linkSections))
 	})
 
 	return (
-		<div className="flex flex-col gap-2.5 p-4 min-h-screen bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
+		<div
+			ref={scrollContainerRef}
+			className="flex flex-col gap-2.5 p-4 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
+		>
 			<div className="flex flex-col sm:flex-row mb-4 gap-2">
 				<h1 className="text-4xl font-bold">Neo Links</h1>
 				<div className="flex items-center justify-between w-full">
@@ -275,41 +157,20 @@ export const LinkGrid = () => {
 				setNewLink={setNewLink}
 				onAddLink={handleAddLink}
 			/>
-			<DndContext
-				sensors={sensors}
-				collisionDetection={closestCenter}
-				onDragStart={handleDragStart}
-				onDragEnd={handleDragEnd}
-				onDragCancel={handleDragCancel}
-				onDragOver={handleDragOver}
-			>
-				{linkSections.map((section) => (
-					<SortableContext
-						key={section.title}
-						items={section.links.map(getLinkId)}
-						strategy={rectSortingStrategy}
-					>
-						<Section
-							section={section}
-							getLinkId={getLinkId}
-							onAddLink={() => {
-								setNewLink({ href: '', title: '', src: '', section: section.title })
-								setShowLinkModal(true)
-							}}
-							deleteMode={deleteMode}
-							onDeleteSection={() => handleDeleteSection(section.title)}
-							onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
-						/>
-					</SortableContext>
-				))}
-				<DragOverlay>
-					{draggedLink ? (
-						<div className="w-48 max-w-full p-1 z-50 ring-4 ring-blue-400 dark:ring-blue-600 shadow-md bg-white dark:bg-neutral-800 rounded-lg">
-							<Link {...draggedLink} />
-						</div>
-					) : null}
-				</DragOverlay>
-			</DndContext>
+			{linkSections.map((section) => (
+				<Section
+					key={section.title}
+					section={section}
+					getLinkId={getLinkId}
+					onAddLink={() => {
+						setNewLink({ href: '', title: '', src: '', section: section.title })
+						setShowLinkModal(true)
+					}}
+					deleteMode={deleteMode}
+					onDeleteSection={() => handleDeleteSection(section.title)}
+					onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
+				/>
+			))}
 		</div>
 	)
 }
