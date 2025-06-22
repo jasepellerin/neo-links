@@ -1,4 +1,10 @@
-import { TrashIcon, PlusIcon, PencilIcon } from '@heroicons/react/24/solid'
+import {
+	TrashIcon,
+	PlusIcon,
+	PencilIcon,
+	ArrowUpIcon,
+	ArrowDownIcon
+} from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -11,6 +17,10 @@ export const Section = ({
 	editMode,
 	onDeleteSection,
 	onRenameSection,
+	onMoveUp,
+	onMoveDown,
+	isFirst,
+	isLast,
 	selectedLinkIds,
 	onToggleSelectLink
 }) => {
@@ -39,13 +49,31 @@ export const Section = ({
 				</div>
 				<div className="flex items-center gap-2">
 					{editMode && (
-						<button
-							onClick={() => setConfirmDeleteSection(true)}
-							className="ml-2 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
-							title="Delete Section"
-						>
-							<TrashIcon className="w-5 h-5" />
-						</button>
+						<>
+							<button
+								onClick={onMoveUp}
+								disabled={isFirst}
+								className="p-1.5 rounded-full text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+								title="Move Section Up"
+							>
+								<ArrowUpIcon className="w-4 h-4" />
+							</button>
+							<button
+								onClick={onMoveDown}
+								disabled={isLast}
+								className="p-1.5 rounded-full text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+								title="Move Section Down"
+							>
+								<ArrowDownIcon className="w-4 h-4" />
+							</button>
+							<button
+								onClick={() => setConfirmDeleteSection(true)}
+								className="ml-2 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
+								title="Delete Section"
+							>
+								<TrashIcon className="w-5 h-5" />
+							</button>
+						</>
 					)}
 					<button
 						onClick={onAddLink}
@@ -65,8 +93,7 @@ export const Section = ({
 				>
 					{section.links.length === 0 ? (
 						<div className="flex flex-1 items-center justify-center text-neutral-400 dark:text-neutral-500 italic min-h-[64px]">
-							No links yet. Click <PlusIcon className="inline w-4 h-4 align-text-bottom" /> to add
-							one!
+							No links yet. Click + to add one!
 						</div>
 					) : (
 						section.links.map((link) => (

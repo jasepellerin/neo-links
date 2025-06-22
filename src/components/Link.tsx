@@ -20,9 +20,9 @@ export const Link = ({
 
 	return (
 		<div className={`w-[100%] relative group ${className || ''}`}>
-			<Tag {...props} className={`flex flex-col items-center justify-start gap-2 h-30`}>
+			<Tag {...props} className={`flex flex-col items-center justify-start gap-2 h-32`}>
 				<div
-					className={`relative bg-white/90 dark:bg-neutral-800/80 rounded-2xl w-16 h-16 flex items-center justify-center shadow-md ${disabled ? '' : 'group-hover:shadow-xl group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
+					className={`relative w-16 h-16 flex items-center justify-center ${disabled ? '' : 'group-hover:shadow-xl group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
 				>
 					<div className={`flex items-center justify-center ${disabled ? 'opacity-50' : ''}`}>
 						{showSrc ? (
@@ -33,7 +33,7 @@ export const Link = ({
 					</div>
 				</div>
 				<p
-					className={`text-lg font-semibold text-neutral-800 dark:text-neutral-100 ${disabled ? 'opacity-50' : 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition'} text-center select-none line-clamp-2 w-[100%] wrap-anywhere`}
+					className={`text-md font-semibold text-neutral-800 dark:text-neutral-100 ${disabled ? 'opacity-50' : 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition'} text-center select-none line-clamp-2 w-[100%] wrap-anywhere`}
 				>
 					{title}
 				</p>

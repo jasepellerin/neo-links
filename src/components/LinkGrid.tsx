@@ -95,6 +95,7 @@ export const LinkGrid = () => {
 					links: s.links.map((l) => (getLinkId(l) === editingLinkId ? { href, title, src } : l))
 				}))
 			)
+			setSelectedLinkIds([])
 		} else {
 			// Add
 			if (linkSections.some((s) => s.links.some((l) => l.href === href && l.title === title))) {
@@ -127,6 +128,15 @@ export const LinkGrid = () => {
 		setLinkSections(
 			linkSections.map((s) => (s.title === oldTitle ? { ...s, title: newTitle.trim() } : s))
 		)
+	}
+
+	const handleMoveSection = (title: string, direction: 'up' | 'down') => {
+		const index = linkSections.findIndex((s) => s.title === title)
+		if (index === -1) return
+		const newIndex = direction === 'up' ? index - 1 : index + 1
+		if (newIndex < 0 || newIndex >= linkSections.length) return
+		const newSections = arrayMove(linkSections, index, newIndex)
+		setLinkSections(newSections)
 	}
 
 	const handleDeleteSelectedLinks = () => {
@@ -328,7 +338,7 @@ export const LinkGrid = () => {
 					onAddLink={handleAddLink}
 					isEditing={!!editingLinkId}
 				/>
-				{linkSections.map((section) => (
+				{linkSections.map((section, index) => (
 					<Section
 						key={section.title}
 						section={section}
@@ -340,6 +350,10 @@ export const LinkGrid = () => {
 						editMode={editMode}
 						onDeleteSection={() => handleDeleteSection(section.title)}
 						onRenameSection={(newTitle: string) => handleRenameSection(section.title, newTitle)}
+						onMoveUp={() => handleMoveSection(section.title, 'up')}
+						onMoveDown={() => handleMoveSection(section.title, 'down')}
+						isFirst={index === 0}
+						isLast={index === linkSections.length - 1}
 						selectedLinkIds={selectedLinkIds}
 						onToggleSelectLink={(linkId) => {
 							setSelectedLinkIds((current) =>
