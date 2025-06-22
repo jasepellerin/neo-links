@@ -7,7 +7,6 @@ import {
 	KeyboardSensor,
 	MouseSensor,
 	TouchSensor,
-	closestCorners,
 	useSensor,
 	useSensors,
 	rectIntersection
@@ -49,15 +48,13 @@ export const LinkGrid = () => {
 
 	const sensors = useSensors(
 		useSensor(MouseSensor, {
-			// Require the mouse to move by 10 pixels before activating
 			activationConstraint: {
 				distance: 10
 			}
 		}),
 		useSensor(TouchSensor, {
-			// Press delay of 250ms, with a tolerance of 5px of movement
 			activationConstraint: {
-				delay: 250,
+				delay: 100,
 				tolerance: 5
 			}
 		}),

@@ -25,7 +25,7 @@ export const SortableLink = ({ id, link, editMode, className, isSelected, onTogg
 					onToggleSelect()
 				}
 			}}
-			className={`select-none w-[18%] min-w-[45px] transition p-1 rounded-lg group relative ${
+			className={`select-none w-[22%] min-w-[45px] transition p-1 rounded-lg group relative ${
 				isSelected ? 'ring-2 ring-indigo-500 bg-indigo-100 dark:bg-indigo-900/30' : ''
 			} ${editMode ? 'cursor-grab' : 'cursor-pointer'}`}
 		>

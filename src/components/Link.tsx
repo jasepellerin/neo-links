@@ -22,15 +22,15 @@ export const Link = ({
 
 	return (
 		<div className={`w-[100%] relative group ${className || ''}`}>
-			<Tag {...props} className={`flex flex-col items-center justify-start gap-1 h-18`}>
+			<Tag {...props} className={`flex flex-col items-center justify-start gap-1 h-22`}>
 				<div
-					className={`relative w-10 h-10 flex items-center justify-center ${disabled ? '' : 'group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
+					className={`relative w-14 h-14 flex items-center justify-center ${disabled ? '' : 'group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
 				>
 					<div className={'flex items-center justify-center'}>
 						{showSrc ? (
 							<img src={src} alt={title.slice(0, 5)} className="w-full h-full object-contain" />
 						) : (
-							<LinkIcon className="w-10 h-10 text-neutral-400 dark:text-neutral-500" />
+							<LinkIcon className="w-full aspect-square text-neutral-400 dark:text-neutral-500" />
 						)}
 					</div>
 				</div>
