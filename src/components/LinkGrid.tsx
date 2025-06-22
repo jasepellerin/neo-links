@@ -305,6 +305,7 @@ export const LinkGrid = () => {
 			collisionDetection={rectIntersection}
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
+			autoScroll={false}
 		>
 			<div
 				ref={scrollContainerRef}
