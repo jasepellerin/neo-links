@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 import { SortableLink } from './SortableLink'
 
 export const Section = ({
@@ -110,7 +110,7 @@ export const Section = ({
 				</div>
 			</div>
 			{!isCollapsed && (
-				<SortableContext items={linkIds} strategy={verticalListSortingStrategy} id={section.title}>
+				<SortableContext items={linkIds} strategy={rectSortingStrategy} id={section.title}>
 					<div
 						className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
 					bg-white border-neutral-200

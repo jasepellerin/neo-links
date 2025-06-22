@@ -8,7 +8,8 @@ import {
 	PointerSensor,
 	closestCorners,
 	useSensor,
-	useSensors
+	useSensors,
+	rectIntersection
 } from '@dnd-kit/core'
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { Section } from './Section'
@@ -46,7 +47,12 @@ export const LinkGrid = () => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
 
 	const sensors = useSensors(
-		useSensor(PointerSensor),
+		useSensor(PointerSensor, {
+			activationConstraint: {
+				delay: 100, // In milliseconds
+				tolerance: 5 // Pixels
+			}
+		}),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates
 		})
@@ -288,7 +294,7 @@ export const LinkGrid = () => {
 	return (
 		<DndContext
 			sensors={sensors}
-			collisionDetection={closestCorners}
+			collisionDetection={rectIntersection}
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
 		>

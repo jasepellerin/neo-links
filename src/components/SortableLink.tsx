@@ -18,27 +18,18 @@ export const SortableLink = ({ id, link, editMode, className, isSelected, onTogg
 		<div
 			ref={setNodeRef}
 			style={style}
+			{...attributes}
+			{...listeners}
+			onClick={() => {
+				if (editMode) {
+					onToggleSelect()
+				}
+			}}
 			className={`select-none w-[18%] min-w-[45px] transition p-1 rounded-lg group relative ${
 				isSelected ? 'ring-2 ring-indigo-500 bg-indigo-100 dark:bg-indigo-900/30' : ''
-			}`}
+			} ${editMode ? 'cursor-grab' : 'cursor-pointer'}`}
 		>
-			<div
-				className={`w-full h-full ${editMode ? 'cursor-pointer' : ''}`}
-				onClick={() => {
-					if (editMode) {
-						onToggleSelect()
-					}
-				}}
-			>
-				<Link
-					{...link}
-					className={className}
-					disabled={editMode}
-					editMode={editMode}
-					attributes={attributes}
-					listeners={listeners}
-				/>
-			</div>
+			<Link {...link} className={className} disabled={editMode} editMode={editMode} />
 		</div>
 	)
 }

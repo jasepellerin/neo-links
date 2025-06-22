@@ -1,4 +1,4 @@
-import { LinkIcon, Bars3Icon } from '@heroicons/react/24/solid'
+import { LinkIcon } from '@heroicons/react/24/solid'
 
 export const Link = ({
 	href,
@@ -6,9 +6,7 @@ export const Link = ({
 	src,
 	className,
 	disabled,
-	editMode,
-	attributes,
-	listeners
+	editMode
 }: {
 	href: string
 	title: string
@@ -16,8 +14,6 @@ export const Link = ({
 	className?: string
 	disabled?: boolean
 	editMode?: boolean
-	attributes?: any
-	listeners?: any
 }) => {
 	const showSrc = src && src.trim() !== ''
 	const Tag = disabled ? 'div' : 'a'
@@ -30,19 +26,7 @@ export const Link = ({
 				<div
 					className={`relative w-10 h-10 flex items-center justify-center ${disabled ? '' : 'group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
 				>
-					{editMode && (
-						<div
-							{...attributes}
-							{...listeners}
-							className="absolute -top-1 -right-1 p-1 rounded-full bg-neutral-500/10 hover:bg-neutral-500/30 cursor-grab touch-none"
-							onClick={(e) => {
-								e.stopPropagation()
-							}}
-						>
-							<Bars3Icon className="w-3 h-3 text-neutral-800 dark:text-neutral-100" />
-						</div>
-					)}
-					<div className={`flex items-center justify-center ${disabled ? 'opacity-50' : ''}`}>
+					<div className={'flex items-center justify-center'}>
 						{showSrc ? (
 							<img src={src} alt={title.slice(0, 5)} className="w-full h-full object-contain" />
 						) : (
@@ -51,7 +35,7 @@ export const Link = ({
 					</div>
 				</div>
 				<p
-					className={`text-[8px] text-neutral-800 dark:text-neutral-100 ${disabled ? 'opacity-50' : 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition'} text-center select-none line-clamp-2 w-[100%] wrap-anywhere`}
+					className={`text-[10px] text-neutral-800 dark:text-neutral-100 ${disabled ? '' : 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition'} text-center select-none line-clamp-2 w-[100%] wrap-anywhere`}
 				>
 					{title}
 				</p>
