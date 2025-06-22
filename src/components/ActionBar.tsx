@@ -19,9 +19,9 @@ export const ActionBar = ({
 				<button
 					onClick={onDone}
 					className="px-4 py-2 rounded-md text-neutral-800 dark:text-neutral-200 bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 transition cursor-pointer"
-					title="Cancel"
+					title="Done"
 				>
-					Cancel
+					Done
 				</button>
 			</div>
 		)

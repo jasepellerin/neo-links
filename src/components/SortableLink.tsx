@@ -19,7 +19,7 @@ export const SortableLink = ({ id, link, editMode, className, isSelected, onTogg
 		<div
 			ref={setNodeRef}
 			style={style}
-			className={`select-none w-[30%] min-w-[80px] transition p-1 rounded-lg group relative ${
+			className={`select-none w-[15%] min-w-[45px] transition p-1 rounded-lg group relative ${
 				isSelected ? 'ring-2 ring-indigo-500 bg-indigo-100 dark:bg-indigo-900/30' : ''
 			}`}
 		>
