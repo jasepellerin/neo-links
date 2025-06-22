@@ -26,6 +26,11 @@ export const LinkGrid = () => {
 		const stored = typeof window !== 'undefined' ? localStorage.getItem('neo-links-sections') : null
 		return stored ? JSON.parse(stored) : initialLinkSections
 	})
+	const [collapsedSections, setCollapsedSections] = useState(() => {
+		const stored =
+			typeof window !== 'undefined' ? localStorage.getItem('neo-links-collapsed') : null
+		return stored ? JSON.parse(stored) : []
+	})
 	const [newSectionTitle, setNewSectionTitle] = useState('')
 	const [newLink, setNewLink] = useState({ href: '', title: '', src: '', section: '' })
 	const [showSectionModal, setShowSectionModal] = useState(false)
@@ -59,6 +64,10 @@ export const LinkGrid = () => {
 	useEffect(() => {
 		localStorage.setItem('neo-links-sections', JSON.stringify(linkSections))
 	}, [linkSections])
+
+	useEffect(() => {
+		localStorage.setItem('neo-links-collapsed', JSON.stringify(collapsedSections))
+	}, [collapsedSections])
 
 	useEffect(() => {
 		if (!editMode) {
@@ -268,6 +277,14 @@ export const LinkGrid = () => {
 		reader.readAsText(file)
 	}
 
+	const handleToggleSection = (sectionTitle: string) => {
+		setCollapsedSections((prev) =>
+			prev.includes(sectionTitle)
+				? prev.filter((title) => title !== sectionTitle)
+				: [...prev, sectionTitle]
+		)
+	}
+
 	return (
 		<DndContext
 			sensors={sensors}
@@ -366,6 +383,8 @@ export const LinkGrid = () => {
 										: [...current, linkId]
 								)
 							}}
+							isCollapsed={collapsedSections.includes(section.title)}
+							onToggleCollapse={() => handleToggleSection(section.title)}
 						/>
 					))}
 				</div>

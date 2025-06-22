@@ -3,7 +3,9 @@ import {
 	PlusIcon,
 	PencilIcon,
 	ArrowUpIcon,
-	ArrowDownIcon
+	ArrowDownIcon,
+	ChevronDownIcon,
+	ChevronRightIcon
 } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import { Modal } from './Modal'
@@ -22,7 +24,9 @@ export const Section = ({
 	isFirst,
 	isLast,
 	selectedLinkIds,
-	onToggleSelectLink
+	onToggleSelectLink,
+	isCollapsed,
+	onToggleCollapse
 }) => {
 	const [confirmDeleteSection, setConfirmDeleteSection] = useState(false)
 	const [isRenaming, setIsRenaming] = useState(false)
@@ -33,7 +37,26 @@ export const Section = ({
 		<div>
 			<div className="flex items-center justify-between mb-2">
 				<div className="flex items-center gap-2">
-					<h2 className="text-2xl font-semibold">{section.title}</h2>
+					{!editMode && (
+						<button
+							onClick={onToggleCollapse}
+							className="p-1 rounded text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-center cursor-pointer"
+							title={isCollapsed ? 'Expand Section' : 'Collapse Section'}
+						>
+							{isCollapsed ? (
+								<ChevronRightIcon className="w-5 h-5" />
+							) : (
+								<ChevronDownIcon className="w-5 h-5" />
+							)}
+						</button>
+					)}
+					<h2
+						className={`text-2xl font-semibold ${!editMode ? 'cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400' : ''}`}
+						onClick={!editMode ? onToggleCollapse : undefined}
+						title={!editMode ? (isCollapsed ? 'Expand Section' : 'Collapse Section') : undefined}
+					>
+						{section.title}
+					</h2>
 					{editMode && (
 						<button
 							onClick={() => {
@@ -86,32 +109,34 @@ export const Section = ({
 					)}
 				</div>
 			</div>
-			<SortableContext items={linkIds} strategy={verticalListSortingStrategy} id={section.title}>
-				<div
-					className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
-				bg-white border-neutral-200
-				dark:bg-neutral-800 dark:border-neutral-700
-				flex flex-wrap justify-around`}
-				>
-					{section.links.length === 0 ? (
-						<div className="flex flex-1 items-center justify-center text-neutral-500 dark:text-neutral-500 italic min-h-[64px]">
-							No links yet. Click + to add one!
-						</div>
-					) : (
-						section.links.map((link) => (
-							<SortableLink
-								key={getLinkId(link)}
-								id={getLinkId(link)}
-								link={link}
-								editMode={editMode}
-								className=""
-								isSelected={selectedLinkIds.includes(getLinkId(link))}
-								onToggleSelect={() => onToggleSelectLink(getLinkId(link))}
-							/>
-						))
-					)}
-				</div>
-			</SortableContext>
+			{!isCollapsed && (
+				<SortableContext items={linkIds} strategy={verticalListSortingStrategy} id={section.title}>
+					<div
+						className={`flex gap-1 p-3 rounded-lg mb-4 min-h-[80px] transition border shadow-sm
+					bg-white border-neutral-200
+					dark:bg-neutral-800 dark:border-neutral-700
+					flex flex-wrap justify-around`}
+					>
+						{section.links.length === 0 ? (
+							<div className="flex flex-1 items-center justify-center text-neutral-500 dark:text-neutral-500 italic min-h-[64px]">
+								No links yet. Click + to add one!
+							</div>
+						) : (
+							section.links.map((link) => (
+								<SortableLink
+									key={getLinkId(link)}
+									id={getLinkId(link)}
+									link={link}
+									editMode={editMode}
+									className=""
+									isSelected={selectedLinkIds.includes(getLinkId(link))}
+									onToggleSelect={() => onToggleSelectLink(getLinkId(link))}
+								/>
+							))
+						)}
+					</div>
+				</SortableContext>
+			)}
 			<Modal open={isRenaming} onClose={() => setIsRenaming(false)} title="Rename Section">
 				<div>
 					<label
