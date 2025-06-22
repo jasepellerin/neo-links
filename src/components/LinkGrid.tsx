@@ -18,6 +18,8 @@ import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
 import { TrashIcon, PlusIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
 import { Link } from './Link'
+import { MoveLinksModal } from './MoveLinksModal'
+import { ActionBar } from './ActionBar'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(() => {
@@ -28,8 +30,10 @@ export const LinkGrid = () => {
 	const [newLink, setNewLink] = useState({ href: '', title: '', src: '', section: '' })
 	const [showSectionModal, setShowSectionModal] = useState(false)
 	const [showLinkModal, setShowLinkModal] = useState(false)
-	const [organizeMode, setOrganizeMode] = useState(false)
+	const [editMode, setEditMode] = useState<'move' | 'delete' | null>(null)
 	const [activeId, setActiveId] = useState<string | null>(null)
+	const [selectedLinkIds, setSelectedLinkIds] = useState<string[]>([])
+	const [showMoveLinksModal, setShowMoveLinksModal] = useState(false)
 
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -49,6 +53,10 @@ export const LinkGrid = () => {
 		return null
 	}
 	const activeLink = activeId ? findLink(activeId)?.link : null
+
+	useEffect(() => {
+		setSelectedLinkIds([])
+	}, [editMode])
 
 	const handleAddSection = () => {
 		if (!newSectionTitle.trim()) return
@@ -87,6 +95,40 @@ export const LinkGrid = () => {
 				s.title === sectionTitle ? { ...s, links: s.links.filter((_, i) => i !== linkIdx) } : s
 			)
 		)
+	}
+
+	const handleDeleteSelectedLinks = () => {
+		setLinkSections((sections) =>
+			sections.map((s) => ({
+				...s,
+				links: s.links.filter((l) => !selectedLinkIds.includes(getLinkId(l)))
+			}))
+		)
+		setSelectedLinkIds([])
+	}
+
+	const handleMoveSelectedLinks = (destinationSectionTitle: string) => {
+		const linksToMove = []
+		const newSections = linkSections.map((s) => {
+			const links = s.links.filter((l) => {
+				const id = getLinkId(l)
+				if (selectedLinkIds.includes(id)) {
+					linksToMove.push(l)
+					return false
+				}
+				return true
+			})
+			return { ...s, links }
+		})
+
+		const destSectionIndex = newSections.findIndex((s) => s.title === destinationSectionTitle)
+		if (destSectionIndex > -1) {
+			newSections[destSectionIndex].links.push(...linksToMove)
+		}
+
+		setLinkSections(newSections)
+		setSelectedLinkIds([])
+		setShowMoveLinksModal(false)
 	}
 
 	const handleDragStart = (event: DragStartEvent) => {
@@ -212,15 +254,22 @@ export const LinkGrid = () => {
 						</div>
 						<div className="flex items-center gap-2">
 							<button
-								onClick={() => setOrganizeMode((m) => !m)}
-								className={`p-2 rounded-full ${organizeMode ? 'bg-red-600' : 'bg-neutral-300 dark:bg-neutral-700'} text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer`}
-								title="Organize Links"
+								onClick={() => setEditMode((m) => (m === 'move' ? null : 'move'))}
+								className={`p-2 rounded-full ${editMode === 'move' ? 'bg-indigo-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700'}  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer`}
+								title="Move Links"
 							>
 								<ArrowsPointingOutIcon className="w-5 h-5" />
 							</button>
 							<button
+								onClick={() => setEditMode((m) => (m === 'delete' ? null : 'delete'))}
+								className={`p-2 rounded-full ${editMode === 'delete' ? 'bg-red-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700'} hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer`}
+								title="Delete Links"
+							>
+								<TrashIcon className="w-5 h-5" />
+							</button>
+							<button
 								onClick={() => setShowSectionModal(true)}
-								className="p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer"
+								className="p-2 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 flex items-center justify-center cursor-pointer"
 								title="Add Section"
 							>
 								<PlusIcon className="w-5 h-5" />
@@ -251,13 +300,34 @@ export const LinkGrid = () => {
 							setNewLink({ href: '', title: '', src: '', section: section.title })
 							setShowLinkModal(true)
 						}}
-						organizeMode={organizeMode}
+						editMode={editMode}
 						onDeleteSection={() => handleDeleteSection(section.title)}
 						onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
+						selectedLinkIds={selectedLinkIds}
+						onToggleSelectLink={(linkId) => {
+							setSelectedLinkIds((current) =>
+								current.includes(linkId)
+									? current.filter((id) => id !== linkId)
+									: [...current, linkId]
+							)
+						}}
 					/>
 				))}
 			</div>
 			<DragOverlay>{activeLink ? <Link {...activeLink} /> : null}</DragOverlay>
+			{editMode && selectedLinkIds.length > 0 && (
+				<ActionBar
+					selectedCount={selectedLinkIds.length}
+					onMove={editMode === 'move' ? () => setShowMoveLinksModal(true) : undefined}
+					onDelete={editMode === 'delete' ? handleDeleteSelectedLinks : undefined}
+				/>
+			)}
+			<MoveLinksModal
+				open={showMoveLinksModal}
+				onClose={() => setShowMoveLinksModal(false)}
+				sections={linkSections.map((s) => s.title)}
+				onMoveLinks={handleMoveSelectedLinks}
+			/>
 		</DndContext>
 	)
 }

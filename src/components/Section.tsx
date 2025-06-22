@@ -9,21 +9,24 @@ export const Section = ({
 	section,
 	getLinkId,
 	onAddLink,
-	organizeMode,
+	editMode,
 	onDeleteSection,
-	onDeleteLink
+	onDeleteLink,
+	selectedLinkIds,
+	onToggleSelectLink
 }) => {
 	const [confirmDeleteSection, setConfirmDeleteSection] = useState(false)
 	const [confirmDeleteLinkIdx, setConfirmDeleteLinkIdx] = useState(null)
 	const [fadingOutLinkIdx, setFadingOutLinkIdx] = useState(null)
 	const linkIds = section.links.map((l) => getLinkId(l))
+	const isDeleteMode = editMode === 'delete'
 
 	return (
 		<div>
 			<div className="flex items-center justify-between mb-2">
 				<h2 className="text-2xl font-semibold">{section.title}</h2>
 				<div className="flex items-center gap-2">
-					{organizeMode && (
+					{isDeleteMode && (
 						<button
 							onClick={() => setConfirmDeleteSection(true)}
 							className="ml-2 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer"
@@ -60,9 +63,10 @@ export const Section = ({
 								id={getLinkId(link)}
 								link={link}
 								className={fadingOutLinkIdx === idx ? 'animate-fadeout' : 'animate-fadein'}
-								disabled={organizeMode}
-								organizeMode={organizeMode}
+								editMode={editMode}
 								onDelete={() => setConfirmDeleteLinkIdx(idx)}
+								isSelected={selectedLinkIds.includes(getLinkId(link))}
+								onToggleSelect={() => onToggleSelectLink(getLinkId(link))}
 							/>
 						))
 					)}
