@@ -3,22 +3,10 @@ import { CSS } from '@dnd-kit/utilities'
 import { Link } from './Link'
 import { Bars3Icon } from '@heroicons/react/24/solid'
 
-export const SortableLink = ({
-	id,
-	link,
-	editMode,
-	onDelete,
-	className,
-	isSelected,
-	onToggleSelect
-}) => {
-	const isMoveMode = editMode === 'move'
-	const isDeleteMode = editMode === 'delete'
-	const isOrganizeMode = isMoveMode || isDeleteMode
-
+export const SortableLink = ({ id, link, editMode, className, isSelected, onToggleSelect }) => {
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
 		id,
-		disabled: !isMoveMode
+		disabled: !editMode
 	})
 
 	const style = {
@@ -36,22 +24,16 @@ export const SortableLink = ({
 			}`}
 		>
 			<div
-				className={`w-full h-full ${isOrganizeMode ? 'cursor-pointer' : ''}`}
+				className={`w-full h-full ${editMode ? 'cursor-pointer' : ''}`}
 				onClick={() => {
-					if (isOrganizeMode) {
+					if (editMode) {
 						onToggleSelect()
 					}
 				}}
 			>
-				<Link
-					{...link}
-					className={className}
-					disabled={isOrganizeMode}
-					deleteMode={isDeleteMode}
-					onDelete={onDelete}
-				/>
+				<Link {...link} className={className} disabled={editMode} />
 			</div>
-			{isMoveMode && (
+			{editMode && (
 				<div
 					{...attributes}
 					{...listeners}

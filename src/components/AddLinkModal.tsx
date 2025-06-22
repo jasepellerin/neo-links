@@ -1,8 +1,8 @@
 import { Modal } from './Modal'
 import { Field, Input, Label } from '@headlessui/react'
 
-export const AddLinkModal = ({ open, onClose, newLink, setNewLink, onAddLink }) => (
-	<Modal open={open} onClose={onClose} title="Add Link">
+export const AddLinkModal = ({ open, onClose, newLink, setNewLink, onAddLink, isEditing }) => (
+	<Modal open={open} onClose={onClose} title={isEditing ? 'Edit Link' : 'Add Link'}>
 		<Field className="mb-4">
 			<Label className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-200">
 				Title
@@ -47,7 +47,7 @@ export const AddLinkModal = ({ open, onClose, newLink, setNewLink, onAddLink }) 
 				onClick={onAddLink}
 				className="px-5 py-2 rounded-lg font-medium bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-colors cursor-pointer"
 			>
-				Add
+				{isEditing ? 'Save' : 'Add'}
 			</button>
 		</div>
 	</Modal>

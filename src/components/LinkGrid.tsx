@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import {
 	DndContext,
 	DragEndEvent,
-	DragOverEvent,
 	DragOverlay,
 	DragStartEvent,
 	KeyboardSensor,
@@ -16,7 +15,7 @@ import { Section } from './Section'
 import { initialLinkSections, getLinkId } from '../data/links'
 import { AddSectionModal } from './AddSectionModal'
 import { AddLinkModal } from './AddLinkModal'
-import { TrashIcon, PlusIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
+import { PlusIcon, PencilIcon } from '@heroicons/react/24/solid'
 import { Link } from './Link'
 import { MoveLinksModal } from './MoveLinksModal'
 import { ActionBar } from './ActionBar'
@@ -31,11 +30,12 @@ export const LinkGrid = () => {
 	const [newLink, setNewLink] = useState({ href: '', title: '', src: '', section: '' })
 	const [showSectionModal, setShowSectionModal] = useState(false)
 	const [showLinkModal, setShowLinkModal] = useState(false)
-	const [editMode, setEditMode] = useState<'move' | 'delete' | null>(null)
+	const [editMode, setEditMode] = useState(false)
 	const [activeId, setActiveId] = useState<string | null>(null)
 	const [selectedLinkIds, setSelectedLinkIds] = useState<string[]>([])
 	const [showMoveLinksModal, setShowMoveLinksModal] = useState(false)
 	const [showConfirmDeleteSelectedModal, setShowConfirmDeleteSelectedModal] = useState(false)
+	const [editingLinkId, setEditingLinkId] = useState<string | null>(null)
 
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -57,7 +57,9 @@ export const LinkGrid = () => {
 	const activeLink = activeId ? findLink(activeId)?.link : null
 
 	useEffect(() => {
-		setSelectedLinkIds([])
+		if (!editMode) {
+			setSelectedLinkIds([])
+		}
 	}, [editMode])
 
 	const handleAddSection = () => {
@@ -73,30 +75,47 @@ export const LinkGrid = () => {
 		const { href, title, src, section } = newLink
 		if (!href || !title || !section) return
 
-		if (linkSections.some((s) => s.links.some((l) => l.href === href && l.title === title))) {
-			alert('Cannot add duplicate link')
-			return
+		if (editingLinkId) {
+			// Update
+			if (
+				linkSections.some((s) =>
+					s.links.some((l) => {
+						const currentId = getLinkId(l)
+						return currentId !== editingLinkId && l.href === href && l.title === title
+					})
+				)
+			) {
+				alert('Cannot update to a duplicate link')
+				return
+			}
+
+			setLinkSections(
+				linkSections.map((s) => ({
+					...s,
+					links: s.links.map((l) => (getLinkId(l) === editingLinkId ? { href, title, src } : l))
+				}))
+			)
+		} else {
+			// Add
+			if (linkSections.some((s) => s.links.some((l) => l.href === href && l.title === title))) {
+				alert('Cannot add duplicate link')
+				return
+			}
+
+			setLinkSections(
+				linkSections.map((s) =>
+					s.title === section ? { ...s, links: [...s.links, { href, title, src }] } : s
+				)
+			)
 		}
 
-		setLinkSections(
-			linkSections.map((s) =>
-				s.title === section ? { ...s, links: [...s.links, { href, title, src }] } : s
-			)
-		)
 		setNewLink({ href: '', title: '', src: '', section: '' })
 		setShowLinkModal(false)
+		setEditingLinkId(null)
 	}
 
 	const handleDeleteSection = (title) => {
 		setLinkSections(linkSections.filter((s) => s.title !== title))
-	}
-
-	const handleDeleteLink = (sectionTitle, linkIdx) => {
-		setLinkSections(
-			linkSections.map((s) =>
-				s.title === sectionTitle ? { ...s, links: s.links.filter((_, i) => i !== linkIdx) } : s
-			)
-		)
 	}
 
 	const handleDeleteSelectedLinks = () => {
@@ -132,6 +151,23 @@ export const LinkGrid = () => {
 		setLinkSections(newSections)
 		setSelectedLinkIds([])
 		setShowMoveLinksModal(false)
+	}
+
+	const handleEditLink = () => {
+		if (selectedLinkIds.length !== 1) return
+		const linkId = selectedLinkIds[0]
+		const found = findLink(linkId)
+		if (found) {
+			const { link, sectionTitle } = found
+			setEditingLinkId(linkId)
+			setNewLink({
+				href: link.href,
+				title: link.title,
+				src: link.src || '',
+				section: sectionTitle
+			})
+			setShowLinkModal(true)
+		}
 	}
 
 	const handleDragStart = (event: DragStartEvent) => {
@@ -220,7 +256,6 @@ export const LinkGrid = () => {
 				className="flex flex-col gap-2.5 px-4 pt-4 pb-32 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
 			>
 				<div className="flex flex-col sm:flex-row mb-4 gap-2">
-					<h1 className="text-4xl font-bold">Neo Links</h1>
 					<div className="flex items-center justify-between w-full">
 						<div className="flex items-center gap-2">
 							<button
@@ -247,18 +282,11 @@ export const LinkGrid = () => {
 						</div>
 						<div className="flex items-center gap-2">
 							<button
-								onClick={() => setEditMode((m) => (m === 'move' ? null : 'move'))}
-								className={`p-2 rounded-full ${editMode === 'move' ? 'bg-indigo-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700'}  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer`}
-								title="Move Links"
+								onClick={() => setEditMode((m) => !m)}
+								className={`p-2 rounded-full ${editMode ? 'bg-indigo-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700'}  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 flex items-center justify-center cursor-pointer`}
+								title="Edit Links"
 							>
-								<ArrowsPointingOutIcon className="w-5 h-5" />
-							</button>
-							<button
-								onClick={() => setEditMode((m) => (m === 'delete' ? null : 'delete'))}
-								className={`p-2 rounded-full ${editMode === 'delete' ? 'bg-red-600 text-white' : 'bg-neutral-300 dark:bg-neutral-700'} hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 flex items-center justify-center cursor-pointer`}
-								title="Delete Links"
-							>
-								<TrashIcon className="w-5 h-5" />
+								<PencilIcon className="w-5 h-5" />
 							</button>
 							<button
 								onClick={() => setShowSectionModal(true)}
@@ -279,10 +307,15 @@ export const LinkGrid = () => {
 				/>
 				<AddLinkModal
 					open={showLinkModal}
-					onClose={() => setShowLinkModal(false)}
+					onClose={() => {
+						setShowLinkModal(false)
+						setEditingLinkId(null)
+						setNewLink({ href: '', title: '', src: '', section: '' })
+					}}
 					newLink={newLink}
 					setNewLink={setNewLink}
 					onAddLink={handleAddLink}
+					isEditing={!!editingLinkId}
 				/>
 				{linkSections.map((section) => (
 					<Section
@@ -295,7 +328,6 @@ export const LinkGrid = () => {
 						}}
 						editMode={editMode}
 						onDeleteSection={() => handleDeleteSection(section.title)}
-						onDeleteLink={(idx) => handleDeleteLink(section.title, idx)}
 						selectedLinkIds={selectedLinkIds}
 						onToggleSelectLink={(linkId) => {
 							setSelectedLinkIds((current) =>
@@ -311,10 +343,12 @@ export const LinkGrid = () => {
 			{editMode && selectedLinkIds.length > 0 && (
 				<ActionBar
 					selectedCount={selectedLinkIds.length}
-					onMove={editMode === 'move' ? () => setShowMoveLinksModal(true) : undefined}
+					onMove={selectedLinkIds.length > 0 ? () => setShowMoveLinksModal(true) : undefined}
 					onDelete={
-						editMode === 'delete' ? () => setShowConfirmDeleteSelectedModal(true) : undefined
+						selectedLinkIds.length > 0 ? () => setShowConfirmDeleteSelectedModal(true) : undefined
 					}
+					onEdit={selectedLinkIds.length === 1 ? handleEditLink : undefined}
+					onDone={() => setEditMode(false)}
 				/>
 			)}
 			<MoveLinksModal
