@@ -253,9 +253,9 @@ export const LinkGrid = () => {
 		>
 			<div
 				ref={scrollContainerRef}
-				className="flex flex-col gap-2.5 px-4 pt-4 pb-32 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
+				className="flex flex-col gap-2.5 px-4 pb-48 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
 			>
-				<div className="flex flex-col sm:flex-row mb-4 gap-2">
+				<div className="flex flex-col sm:flex-row gap-2 pt-4 pb-4 sticky top-0 bg-neutral-100 dark:bg-neutral-900 z-100">
 					<div className="flex items-center justify-between w-full">
 						<div className="flex items-center gap-2">
 							<button
