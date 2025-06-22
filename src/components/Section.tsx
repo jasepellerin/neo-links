@@ -3,27 +3,6 @@ import { useState } from 'react'
 import { Modal } from './Modal'
 import { Link } from './Link'
 
-const LinkItem = ({ link, idx, deleteMode, setConfirmDeleteLinkIdx, fadingOutLinkIdx }) => {
-	return (
-		<div className={`select-none w-[22%] min-w-[80px] transition relative p-1 rounded-lg`}>
-			{deleteMode && (
-				<button
-					onClick={() => setConfirmDeleteLinkIdx(idx)}
-					className="absolute top-0 right-0 p-2 rounded-full bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 z-10 cursor-pointer"
-					title="Delete Link"
-				>
-					<TrashIcon className="w-5 h-5" />
-				</button>
-			)}
-			<Link
-				{...link}
-				className={fadingOutLinkIdx === idx ? 'animate-fadeout' : 'animate-fadein'}
-				disabled={deleteMode}
-			/>
-		</div>
-	)
-}
-
 export const Section = ({
 	section,
 	getLinkId,
@@ -72,14 +51,18 @@ export const Section = ({
 					</div>
 				) : (
 					section.links.map((link, idx) => (
-						<LinkItem
+						<div
 							key={getLinkId(link)}
-							link={link}
-							idx={idx}
-							deleteMode={deleteMode}
-							setConfirmDeleteLinkIdx={setConfirmDeleteLinkIdx}
-							fadingOutLinkIdx={fadingOutLinkIdx}
-						/>
+							className="select-none w-[22%] min-w-[80px] transition p-1 rounded-lg group"
+						>
+							<Link
+								{...link}
+								className={fadingOutLinkIdx === idx ? 'animate-fadeout' : 'animate-fadein'}
+								disabled={deleteMode}
+								deleteMode={deleteMode}
+								onDelete={() => setConfirmDeleteLinkIdx(idx)}
+							/>
+						</div>
 					))
 				)}
 			</div>
