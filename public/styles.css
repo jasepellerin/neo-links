@@ -308,6 +308,12 @@
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
   }
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
   .line-clamp-2 {
     overflow: hidden;
     display: -webkit-box;
@@ -635,6 +641,15 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
+  .pt-4 {
+    padding-top: calc(var(--spacing) * 4);
+  }
+  .pb-24 {
+    padding-bottom: calc(var(--spacing) * 24);
+  }
+  .pb-32 {
+    padding-bottom: calc(var(--spacing) * 32);
+  }
   .text-center {
     text-align: center;
   }
@@ -686,6 +701,9 @@
   }
   .wrap-anywhere {
     overflow-wrap: anywhere;
+  }
+  .whitespace-nowrap {
+    white-space: nowrap;
   }
   .text-neutral-200 {
     color: var(--color-neutral-200);

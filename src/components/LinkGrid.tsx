@@ -20,6 +20,7 @@ import { TrashIcon, PlusIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/
 import { Link } from './Link'
 import { MoveLinksModal } from './MoveLinksModal'
 import { ActionBar } from './ActionBar'
+import { Modal } from './Modal'
 
 export const LinkGrid = () => {
 	const [linkSections, setLinkSections] = useState(() => {
@@ -34,6 +35,7 @@ export const LinkGrid = () => {
 	const [activeId, setActiveId] = useState<string | null>(null)
 	const [selectedLinkIds, setSelectedLinkIds] = useState<string[]>([])
 	const [showMoveLinksModal, setShowMoveLinksModal] = useState(false)
+	const [showConfirmDeleteSelectedModal, setShowConfirmDeleteSelectedModal] = useState(false)
 
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -105,6 +107,7 @@ export const LinkGrid = () => {
 			}))
 		)
 		setSelectedLinkIds([])
+		setShowConfirmDeleteSelectedModal(false)
 	}
 
 	const handleMoveSelectedLinks = (destinationSectionTitle: string) => {
@@ -214,7 +217,7 @@ export const LinkGrid = () => {
 		>
 			<div
 				ref={scrollContainerRef}
-				className="flex flex-col gap-2.5 p-4 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
+				className="flex flex-col gap-2.5 px-4 pt-4 pb-32 h-screen overflow-y-auto bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-200"
 			>
 				<div className="flex flex-col sm:flex-row mb-4 gap-2">
 					<h1 className="text-4xl font-bold">Neo Links</h1>
@@ -309,7 +312,9 @@ export const LinkGrid = () => {
 				<ActionBar
 					selectedCount={selectedLinkIds.length}
 					onMove={editMode === 'move' ? () => setShowMoveLinksModal(true) : undefined}
-					onDelete={editMode === 'delete' ? handleDeleteSelectedLinks : undefined}
+					onDelete={
+						editMode === 'delete' ? () => setShowConfirmDeleteSelectedModal(true) : undefined
+					}
 				/>
 			)}
 			<MoveLinksModal
@@ -318,6 +323,27 @@ export const LinkGrid = () => {
 				sections={linkSections.map((s) => s.title)}
 				onMoveLinks={handleMoveSelectedLinks}
 			/>
+			<Modal
+				open={showConfirmDeleteSelectedModal}
+				onClose={() => setShowConfirmDeleteSelectedModal(false)}
+				title={`Delete ${selectedLinkIds.length} links?`}
+			>
+				<div>Are you sure you want to delete the selected links? This action cannot be undone.</div>
+				<div className="flex gap-2 mt-4 justify-end">
+					<button
+						onClick={() => setShowConfirmDeleteSelectedModal(false)}
+						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 cursor-pointer"
+					>
+						Cancel
+					</button>
+					<button
+						onClick={handleDeleteSelectedLinks}
+						className="px-3 py-1 rounded bg-red-600 text-white"
+					>
+						Delete
+					</button>
+				</div>
+			</Modal>
 		</DndContext>
 	)
 }

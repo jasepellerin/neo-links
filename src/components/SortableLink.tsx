@@ -36,7 +36,7 @@ export const SortableLink = ({
 			}`}
 		>
 			<div
-				className="w-full h-full"
+				className={`w-full h-full ${isOrganizeMode ? 'cursor-pointer' : ''}`}
 				onClick={() => {
 					if (isOrganizeMode) {
 						onToggleSelect()

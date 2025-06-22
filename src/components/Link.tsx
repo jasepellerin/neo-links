@@ -24,12 +24,7 @@ export const Link = ({
 
 	return (
 		<div className={`w-[100%] relative group ${className || ''}`}>
-			<Tag
-				{...props}
-				className={`flex flex-col items-center justify-start gap-2 h-30 ${
-					disabled ? 'cursor-not-allowed' : ''
-				}`}
-			>
+			<Tag {...props} className={`flex flex-col items-center justify-start gap-2 h-30`}>
 				<div
 					className={`relative bg-white/90 dark:bg-neutral-800/80 p-3 rounded-2xl flex items-center justify-center shadow-md ${disabled ? '' : 'group-hover:shadow-xl group-hover:ring-2 group-hover:ring-indigo-400 dark:group-hover:ring-indigo-600 transition-all duration-150 scale-100 group-hover:scale-105'}`}
 				>

@@ -3,7 +3,7 @@ import { PaperAirplaneIcon, TrashIcon } from '@heroicons/react/24/solid'
 export const ActionBar = ({ selectedCount, onMove, onDelete }) => {
 	return (
 		<div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-auto bg-neutral-800 text-white rounded-lg shadow-lg p-2 flex items-center gap-4 animate-fadein">
-			<div className="font-bold px-2">{selectedCount} selected</div>
+			<div className="font-bold px-2 whitespace-nowrap">{selectedCount} selected</div>
 			{onMove && (
 				<button
 					onClick={onMove}
