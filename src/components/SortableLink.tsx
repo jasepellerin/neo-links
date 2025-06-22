@@ -27,16 +27,6 @@ export const SortableLink = ({
 		opacity: isDragging ? 0.5 : 1
 	}
 
-	const handleContainerClick = (e) => {
-		if (isOrganizeMode) {
-			// Prevent the link from being followed
-			e.preventDefault()
-			// Stop propagation to not trigger drag listener on click
-			e.stopPropagation()
-			onToggleSelect()
-		}
-	}
-
 	return (
 		<div
 			ref={setNodeRef}
@@ -44,22 +34,33 @@ export const SortableLink = ({
 			className={`select-none w-[22%] min-w-[80px] transition p-1 rounded-lg group relative ${
 				isSelected ? 'ring-2 ring-indigo-500 bg-indigo-100 dark:bg-indigo-900/30' : ''
 			}`}
-			onClick={handleContainerClick}
 		>
-			<Link
-				{...link}
-				className={className}
-				disabled={isOrganizeMode}
-				deleteMode={isDeleteMode}
-				onDelete={onDelete}
-			/>
+			<div
+				className="w-full h-full"
+				onClick={() => {
+					if (isOrganizeMode) {
+						onToggleSelect()
+					}
+				}}
+			>
+				<Link
+					{...link}
+					className={className}
+					disabled={isOrganizeMode}
+					deleteMode={isDeleteMode}
+					onDelete={onDelete}
+				/>
+			</div>
 			{isMoveMode && (
 				<div
 					{...attributes}
 					{...listeners}
-					className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab"
+					className="absolute top-1 right-1 p-2 rounded-full bg-neutral-500/10 hover:bg-neutral-500/30 cursor-grab touch-none"
+					onClick={(e) => {
+						e.stopPropagation()
+					}}
 				>
-					<Bars3Icon className="w-8 h-8 text-white" />
+					<Bars3Icon className="w-5 h-5 text-neutral-800 dark:text-neutral-100" />
 				</div>
 			)}
 		</div>

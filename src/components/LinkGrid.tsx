@@ -149,11 +149,12 @@ export const LinkGrid = () => {
 
 		const activeSectionTitle = active.data.current?.sortable.containerId
 		const overSectionTitle = over.data.current?.sortable.containerId
-		const activeLinkIdx = active.data.current?.sortable.index
-		const overLinkIdx = over.data.current?.sortable.index
 
+		// Only allow reordering within the same section
 		if (activeSectionTitle === overSectionTitle) {
-			// Reorder within the same section
+			const activeLinkIdx = active.data.current?.sortable.index
+			const overLinkIdx = over.data.current?.sortable.index
+
 			setLinkSections((sections) => {
 				const sectionIdx = sections.findIndex((s) => s.title === activeSectionTitle)
 				if (sectionIdx === -1) return sections
@@ -165,19 +166,8 @@ export const LinkGrid = () => {
 				}
 				return newSections
 			})
-		} else {
-			// Move to a different section
-			setLinkSections((sections) => {
-				const activeSectionIdx = sections.findIndex((s) => s.title === activeSectionTitle)
-				const overSectionIdx = sections.findIndex((s) => s.title === overSectionTitle)
-				if (activeSectionIdx === -1 || overSectionIdx === -1) return sections
-
-				const newSections = [...sections]
-				const [movedLink] = newSections[activeSectionIdx].links.splice(activeLinkIdx, 1)
-				newSections[overSectionIdx].links.splice(overLinkIdx, 0, movedLink)
-				return newSections
-			})
 		}
+
 		setActiveId(null)
 	}
 
