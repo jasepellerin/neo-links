@@ -1,0 +1,432 @@
+[
+    {
+      "title": "Main",
+      "links": [
+        {
+          "href": "https://www.neopets.com/bank.phtml",
+          "title": "Bank",
+          "src": "https://images.neopets.com/items/toy_bankmanager_skeith.gif"
+        },
+        {
+          "href": "https://www.neopets.com/market.phtml?type=till",
+          "title": "Shop Till",
+          "src": "https://images.neopets.com/events/2000neopoints.gif"
+        },
+        {
+          "href": "https://www.neopets.com/safetydeposit.phtml",
+          "title": "Safety Deposit Box",
+          "src": "https://images.neopets.com/items/toy_chest_discoveredtreasure.gif"
+        },
+        {
+          "href": "https://www.neopets.com/gallery/index.phtml",
+          "title": "Gallery",
+          "src": "https://images.neopets.com/items/toy_shoyrupal.gif"
+        },
+        {
+          "href": "https://www.neopets.com/pirates/foodclub.phtml?type=bet",
+          "title": " Food Club",
+          "src": "https://images.neopets.com/items/plu_gooblah_grarrl.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faerieland/springs.phtml",
+          "title": " Healing Springs",
+          "src": "https://images.neopets.com/items/fbo_faerieday_1.gif"
+        },
+        {
+          "href": "https://www.neopets.com/neopies/",
+          "title": "Neopies",
+          "src": "https://images.neopets.com/items/boo_neopies_program.gif"
+        },
+        {
+          "href": "https://www.neopets.com/games/sakhmet-solitaire-2/",
+          "title": "Sakhmet Solitaire Event",
+          "src": "https://images.neopets.com/items/61h3gjchh3.gif"
+        }
+      ]
+    },
+    {
+      "title": "Avatar",
+      "links": [
+        {
+          "href": "https://www.neopets.com/halloween/gravedanger/index.phtml",
+          "title": " Grave Danger",
+          "src": "https://images.neopets.com/items/boo_zombiegravebook.gif"
+        },
+        {
+          "href": "https://www.neopets.com/worlds/deadlydice.phtml",
+          "title": "Deadly Dice",
+          "src": "https://images.neopets.com/items/toy_y21haltot_fuzzy_dice.gif"
+        },
+        {
+          "href": "https://www.neopets.com/games/dicearoo.phtml",
+          "title": "Dice-a-Roo",
+          "src": "https://images.neopets.com/items/sta_dicearoo.gif"
+        },
+        {
+          "href": "https://www.neopets.com/winter/igloo.phtml",
+          "title": "Igloo Garage Sale",
+          "src": "https://images.neopets.com/items/ad_mikacarassamug.gif"
+        },
+        {
+          "href": "https://www.neopets.com/winter/snowfaerie.phtml",
+          "title": "Snow Faerie Quest",
+          "src": "https://images.neopets.com/items/bvg_stain_taelia.gif"
+        },
+        {
+          "href": "https://www.neopets.com/lab2.phtml",
+          "title": " Lab Ray",
+          "src": "https://images.neopets.com/items/bd_spaceray1.gif"
+        },
+        {
+          "href": "https://www.neopets.com/petpetlab.phtml",
+          "title": " Petpet Lab",
+          "src": "https://images.neopets.com/items/petpetlab_soot.gif"
+        }
+      ]
+    },
+    {
+      "title": "Support",
+      "links": [
+        {
+          "href": "https://items.jellyneo.net/",
+          "title": "JN Item DB",
+          "src": "https://images.neopets.com/items/fishnegg.gif"
+        },
+        {
+          "href": "https://www.jellyneo.net/",
+          "title": "Jellyneo Home",
+          "src": "https://pets.neopets.com/cp/n6sn2dmm/1/1.png"
+        },
+        {
+          "href": "https://www.reddit.com/r/neopets/",
+          "title": "Reddit",
+          "src": "https://emoji.redditmedia.com/8xb567xaksve1_t5_2r64t/SlorgPride"
+        },
+        {
+          "href": "https://thedailyneopets.com/dailies",
+          "title": "TDN",
+          "src": "https://images.neopets.com/items/plu_pteri_magred.gif"
+        },
+        {
+          "href": "https://impress-2020.openneo.net/",
+          "title": "DTI 2020",
+          "src": "https://images.neopets.com/items/clo_vintage_dressup_trunk.gif"
+        },
+        {
+          "href": "https://itemdb.com.br/",
+          "title": "Item DB",
+          "src": "https://images.neopets.com/items/fg_discarded_plushie_monitor.gif"
+        }
+      ]
+    },
+    {
+      "title": "Quest Log",
+      "links": [
+        {
+          "href": "https://www.neopets.com/questlog/",
+          "title": "Quest Log",
+          "src": "https://images.neopets.com/items/toy_hannah_plushie.gif"
+        },
+        {
+          "href": "https://www.neopets.com/generalstore.phtml",
+          "title": "Store",
+          "src": "https://images.neopets.com/shopkeepers/oldtyme_keeper2.gif"
+        },
+        {
+          "href": "https://www.neopets.com/games/h5game.phtml?game_id=1391",
+          "title": "Game",
+          "src": "https://images.neopets.com/items/gam_aaa_system.gif"
+        },
+        {
+          "href": "https://www.neopets.com/customise/",
+          "title": "Customize",
+          "src": "https://images.neopets.com/items/fur_wardrobe_mootix.gif"
+        },
+        {
+          "href": "https://www.neopets.com/prehistoric/mediocrity.phtml",
+          "title": " Wheel of Mediocrity",
+          "src": "https://images.neopets.com/prehistoric/wheel_of_mediocrity.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faerieland/wheel.phtml",
+          "title": " Wheel of Excitement",
+          "src": "https://images.neopets.com/new_games/n13.gif"
+        },
+        {
+          "href": "https://www.neopets.com/halloween/wheel/index.phtml",
+          "title": " Wheel of Misfortune",
+          "src": "https://images.neopets.com/images/frontpage/misfortune.gif"
+        },
+        {
+          "href": "https://www.neopets.com/medieval/knowledge.phtml",
+          "title": " Wheel of Knowledge",
+          "src": "https://images.neopets.com/items/toy_bv_wheelofknowledge.gif"
+        },
+        {
+          "href": "https://www.neopets.com/dome/",
+          "title": " Battledome",
+          "src": "https://images.neopets.com/items/bd_battlefaerie_twinswords.gif"
+        },
+        {
+          "href": "https://www.neopets.com/water/fishing.phtml",
+          "title": " Underwater Fishing",
+          "src": "https://images.neopets.com/items/gar_fishing_meepit.gif"
+        },
+        {
+          "href": "https://www.neopets.com/inventory.phtml",
+          "title": "Inventory",
+          "src": "https://images.neopets.com/items/cc_bppack_10.gif"
+        }
+      ]
+    },
+    {
+      "title": "Dailies",
+      "links": [
+        {
+          "href": "https://www.neopets.com/trudys_surprise.phtml",
+          "title": "Trudy's Surprise",
+          "src": "https://images.neopets.com/items/plu_trudy.gif"
+        },
+        {
+          "href": "https://www.neopets.com/prehistoric/omelette.phtml",
+          "title": "Omelette",
+          "src": "https://images.neopets.com/items/om_bacon_broccoli1.gif"
+        },
+        {
+          "href": "https://www.neopets.com/jelly/jelly.phtml",
+          "title": "Jelly",
+          "src": "https://images.neopets.com/items/blobikins_picnic.gif"
+        },
+        {
+          "href": "https://www.neopets.com/pirates/anchormanagement.phtml",
+          "title": "Anchor Management",
+          "src": "https://images.neopets.com/items/fur_pirate_anchor.gif"
+        },
+        {
+          "href": "https://www.neopets.com/shop_of_offers.phtml?slorg_payout=yes",
+          "title": "Shop of Offers",
+          "src": "https://images.neopets.com/items/hall_petpet1.gif"
+        },
+        {
+          "href": "https://www.neopets.com/island/tombola.phtml",
+          "title": " Tombola",
+          "src": "https://images.neopets.com/items/toy_squeezy_tombola.gif"
+        },
+        {
+          "href": "https://www.neopets.com/desert/shrine.phtml",
+          "title": " Coltzan's Shrine",
+          "src": "https://images.neopets.com/items/stamp_desert_coltzan.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faerieland/tdmbgpop.phtml",
+          "title": " TDMBGPOP",
+          "src": "https://images.neopets.com/items/sta_tdmbgpop.gif"
+        },
+        {
+          "href": "https://www.neopets.com/pirates/forgottenshore.phtml",
+          "title": " Forgotten Shore",
+          "src": "https://images.neopets.com/items/forgottenshoremap1.gif"
+        },
+        {
+          "href": "https://www.neopets.com/medieval/grumpyking.phtml",
+          "title": " Grumpy Old King",
+          "src": "https://images.neopets.com/items/toy_plushie_skarl.gif"
+        },
+        {
+          "href": "https://www.neopets.com/medieval/wiseking.phtml",
+          "title": "Wise Old King",
+          "src": "https://images.neopets.com/items/plu_skeith_hagan.gif"
+        },
+        {
+          "href": "https://www.neopets.com/desert/fruitmachine.phtml",
+          "title": " Fruit Machine",
+          "src": "https://images.neopets.com/items/sta_fruitmachine.gif"
+        },
+        {
+          "href": "https://www.neopets.com/premium/wheel.phtml",
+          "title": "Wheel of Starlight",
+          "src": "https://images.neopets.com/items/185mjdi5jd.gif"
+        },
+        {
+          "href": "https://www.neopets.com/desert/extravagance.phtml",
+          "title": "Wheel of Extravagance",
+          "src": "https://images.neopets.com/items/sta_wheel_of_extravagance.gif"
+        },
+        {
+          "href": "https://www.neopets.com/winter/snowager.phtml",
+          "title": "Snowager",
+          "src": "https://images.neopets.com/items/snowager_plushie.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faerieland/caverns/index.phtml",
+          "title": " Faerie Caverns",
+          "src": "https://images.neopets.com/items/bg_faerie_caverns.gif"
+        },
+        {
+          "href": "https://www.neopets.com/games/lostinthedark/",
+          "title": "Lost in the Dark",
+          "src": "https://images.neopets.com/items/h8e23md776.gif"
+        },
+        {
+          "href": "https://www.neopets.com/wishing.phtml",
+          "title": " Wishing Well",
+          "src": "https://images.neopets.com/items/foo_toyww_chococoin.gif"
+        },
+        {
+          "href": "https://www.neopets.com/halloween/strtest/index.phtml",
+          "title": " Test Your Strength",
+          "src": "https://images.neopets.com/items/gar_testyourstrength.gif"
+        },
+        {
+          "href": "https://www.neopets.com/halloween/process_cocoshy.phtml?coconut=1",
+          "title": "Coconut Shy",
+          "src": "https://images.neopets.com/items/gar_coconut_shy.gif"
+        },
+        {
+          "href": "https://ncmall.neopets.com/games/giveaway/process_giveaway.phtml",
+          "title": " Qasalan Expellibox",
+          "src": "https://images.neopets.com/items/coi_y18gmc_scarab_fierygold.gif"
+        },
+        {
+          "href": "https://www.neopets.com/island/training.phtml",
+          "title": " Island Training",
+          "src": "https://images.neopets.com/items/codestone3.gif"
+        },
+        {
+          "href": "https://www.neopets.com/prehistoric/battleground/",
+          "title": "Battleground of the Obelisk",
+          "src": "https://images.neopets.com/items/sta_tyweof2013_myobalstmp.gif"
+        },
+        {
+          "href": "https://www.neopets.com/island/kitchen.phtml",
+          "title": "Kitchen Quests",
+          "src": "https://images.neopets.com/items/toy_kitchenquest_flotsam.gif"
+        },
+        {
+          "href": "https://www.neopets.com/magma/portal/ship.phtml",
+          "title": " The Coincidence",
+          "src": "https://images.neopets.com/items/book_whatacoincidence.gif"
+        },
+        {
+          "href": "https://www.neopets.com/halloween/haunted_woods_hunt.phtml",
+          "title": "Haunted Woods Hunt",
+          "src": "https://images.neopets.com/items/gro_haunted_woods_comb.gif"
+        }
+      ]
+    },
+    {
+      "title": "Occasions",
+      "links": [
+        {
+          "href": "https://www.neopets.com/freebies/index.phtml",
+          "title": "Monthly Freebies",
+          "src": "https://images.neopets.com/items/usuki_conbg7.gif"
+        },
+        {
+          "href": "https://www.neopets.com/neolodge.phtml",
+          "title": " Neolodge",
+          "src": "https://images.neopets.com/items/stamp_nc_lodge.gif"
+        },
+        {
+          "href": "https://www.neopets.com/premium/sc/",
+          "title": "Space Faerie Scratchcards",
+          "src": "https://images.neopets.com/items/toy_faerie_space.gif"
+        },
+        {
+          "href": "https://www.neopets.com/space/warehouse/prizecodes.phtml",
+          "title": "Grundo Warehouse",
+          "src": "https://images.neopets.com/items/coi_spa_warehouse.gif"
+        },
+        {
+          "href": "https://www.jellyneo.net/?go=quest_log&id=weekly_prizes",
+          "title": "JN Quest Log",
+          "src": "https://pets.neopets.com/cp/n6sn2dmm/1/1.png"
+        },
+        {
+          "href": "https://www.neopets.com/games/nq2/nq2.phtml",
+          "title": "NeoQuest II",
+          "src": "https://images.neopets.com/items/sta_nq2_logo.gif"
+        },
+        {
+          "href": "https://neoquest.guide/nq2/",
+          "title": "NeoQuest II Guide",
+          "src": "https://images.neopets.com/items/toy_neoquest_plush7.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faerieland/rainbowfountain.phtml",
+          "title": "Rainbow Fountain",
+          "src": "https://items.jellyneo.net/assets/imgs/neodeck-images/340.gif"
+        },
+        {
+          "href": "https://www.neopets.com/pool/petpet_colors.phtml?f_color=30",
+          "title": "Rainbow Pool",
+          "src": "https://images.neopets.com/items/book_faerie_pool.gif"
+        },
+        {
+          "href": "https://www.neopets.com/quests.phtml",
+          "title": " Faerie Quest",
+          "src": "https://images.neopets.com/items/toy_faerie_rainbow.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faerieland/hiddentower938.phtml",
+          "title": "Hidden Tower",
+          "src": "https://images.neopets.com/items/fbo_faerie_hiddentower.gif"
+        },
+        {
+          "href": "https://www.neopets.com/neggfest/",
+          "title": "Festival of Neggs",
+          "src": "https://images.neopets.com/items/dipanddye_bundle_kit.gif"
+        },
+        {
+          "href": "https://www.neopets.com/altador/colosseum/",
+          "title": " Altador Cup",
+          "src": "https://images.neopets.com/items/tro_altadortroph_wplush.gif"
+        },
+        {
+          "href": "https://www.neopets.com/faeriefestival/",
+          "title": "Faerie Festival",
+          "src": "https://images.neopets.com/items/foo_faerie_festivalcake.gif"
+        },
+        {
+          "href": "https://www.neopets.com/festivaloffears/",
+          "title": "Festival of Fears",
+          "src": "https://images.neopets.com/items/tot_shadowusul_bag.gif"
+        },
+        {
+          "href": "https://www.neopets.com/winter/adventcalendar.phtml",
+          "title": "Advent Calendar",
+          "src": "https://images.neopets.com/items/sta_christmas_bruce.gif"
+        },
+        {
+          "href": "https://www.neopets.com/tvw/",
+          "title": " The Void Within",
+          "src": "https://images.neopets.com/plots/tvw/rewards/images/achievements/94n7e5ffbi.png"
+        },
+        {
+          "href": "https://www.jellyneo.net/?go=the_void_within&id=essence_collection",
+          "title": "TVW Essence Locations",
+          "src": "https://www.jellyneo.net/images/plotimgs/tvw_void_essence.png"
+        },
+        {
+          "href": "https://www.neopets.com/prehistoric/monotony.phtml",
+          "title": "Wheel of Monotony",
+          "src": "https://images.neopets.com/items/toy_miniwheelofmonotony.gif"
+        },
+        {
+          "href": "https://www.jellyneo.net/?go=tales_of_dacardia",
+          "title": "Tales of Dacardia Event",
+          "src": "https://images.neopets.com/items/cc_rebuilddacar_stamp.gif"
+        },
+        {
+          "href": "https://www.neopets.com/~spoilerss",
+          "title": "Spoilerss Petpage",
+          "src": ""
+        },
+        {
+          "href": "https://www.neopets.com/medieval/pickyourown_index.phtml",
+          "title": "Meri Acres Farm",
+          "src": "https://images.neopets.com/items/4clover.gif"
+        }
+      ]
+    }
+  ]

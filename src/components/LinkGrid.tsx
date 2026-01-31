@@ -41,6 +41,7 @@ export const LinkGrid = () => {
 	const [selectedLinkIds, setSelectedLinkIds] = useState<string[]>([])
 	const [showMoveLinksModal, setShowMoveLinksModal] = useState(false)
 	const [showConfirmDeleteSelectedModal, setShowConfirmDeleteSelectedModal] = useState(false)
+	const [showConfirmPresetImportModal, setShowConfirmPresetImportModal] = useState(false)
 	const [editingLinkId, setEditingLinkId] = useState<string | null>(null)
 
 	const fileInputRef = useRef<HTMLInputElement>(null)
@@ -288,6 +289,19 @@ export const LinkGrid = () => {
 		reader.readAsText(file)
 	}
 
+	const handleImportPreset = async () => {
+		try {
+			const response = await fetch('/neopets-preset.json')
+			if (!response.ok) throw new Error('Failed to fetch preset')
+			const imported = await response.json()
+			if (!Array.isArray(imported)) throw new Error('Invalid format')
+			setLinkSections(imported)
+			setShowConfirmPresetImportModal(false)
+		} catch (err) {
+			alert('Failed to import preset: ' + (err as Error).message)
+		}
+	}
+
 	const handleToggleSection = (sectionTitle: string) => {
 		setCollapsedSections((prev) =>
 			prev.includes(sectionTitle)
@@ -324,6 +338,13 @@ export const LinkGrid = () => {
 								title="Import Links"
 							>
 								Import
+							</button>
+							<button
+								onClick={() => setShowConfirmPresetImportModal(true)}
+								className="p-2 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-400 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
+								title="Import Preset"
+							>
+								Import Preset
 							</button>
 							<input
 								type="file"
@@ -437,6 +458,27 @@ export const LinkGrid = () => {
 						className="px-3 py-1 rounded bg-red-600 text-white"
 					>
 						Delete
+					</button>
+				</div>
+			</Modal>
+			<Modal
+				open={showConfirmPresetImportModal}
+				onClose={() => setShowConfirmPresetImportModal(false)}
+				title="Import Preset?"
+			>
+				<div>Are you sure you want to import the Neopets preset? This will replace all your current links and sections. This action cannot be undone.</div>
+				<div className="flex gap-2 mt-4 justify-end">
+					<button
+						onClick={() => setShowConfirmPresetImportModal(false)}
+						className="px-3 py-1 rounded bg-neutral-300 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 cursor-pointer"
+					>
+						Cancel
+					</button>
+					<button
+						onClick={handleImportPreset}
+						className="px-3 py-1 rounded bg-indigo-600 text-white cursor-pointer"
+					>
+						Import
 					</button>
 				</div>
 			</Modal>
