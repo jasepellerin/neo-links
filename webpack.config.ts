@@ -42,12 +42,18 @@ const webpackConfig = (env): webpack.Configuration => ({
 		new webpack.DefinePlugin({
 			'process.env.PRODUCTION': env.production || !env.development,
 			'process.env.NAME': JSON.stringify(packageJson.name),
-			'process.env.VERSION': JSON.stringify(packageJson.version)
+			'process.env.VERSION': JSON.stringify(packageJson.version),
+			'process.env.PUBLIC_URL': JSON.stringify(
+				env.production || !env.development ? '/neo-links/' : '/'
+			)
 		}),
 		new ForkTsCheckerWebpackPlugin(),
 		new ESLintPlugin({ files: './src/**/*.{ts,tsx,js,jsx}', emitWarning: false }),
 		new CopyWebpackPlugin({
-			patterns: [{ from: 'public/styles.css', to: 'styles.css' }]
+			patterns: [
+				{ from: 'public/styles.css', to: 'styles.css' },
+				{ from: 'public/neopets-preset.json', to: 'neopets-preset.json' }
+			]
 		})
 	]
 })

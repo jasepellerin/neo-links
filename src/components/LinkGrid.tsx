@@ -291,7 +291,7 @@ export const LinkGrid = () => {
 
 	const handleImportPreset = async () => {
 		try {
-			const response = await fetch('/neopets-preset.json')
+			const response = await fetch(`${process.env.PUBLIC_URL}neopets-preset.json`)
 			if (!response.ok) throw new Error('Failed to fetch preset')
 			const imported = await response.json()
 			if (!Array.isArray(imported)) throw new Error('Invalid format')
@@ -466,7 +466,10 @@ export const LinkGrid = () => {
 				onClose={() => setShowConfirmPresetImportModal(false)}
 				title="Import Preset?"
 			>
-				<div>Are you sure you want to import the Neopets preset? This will replace all your current links and sections. This action cannot be undone.</div>
+				<div>
+					Are you sure you want to import the Neopets preset? This will replace all your current
+					links and sections. This action cannot be undone.
+				</div>
 				<div className="flex gap-2 mt-4 justify-end">
 					<button
 						onClick={() => setShowConfirmPresetImportModal(false)}
